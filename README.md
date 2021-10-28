@@ -1,6 +1,6 @@
 # Risk-Aware Scene Sampling for Dynamic Assurance of Autonomous Systems
 
-This repo has the steps to run the scene generation with the samplers as discussed in the paper. We demonstrate our approach using the CARLA Autonomous Driving Challenge  https://carlachallenge.org/challenge/nhtsa/
+This repo has the steps to run the scene generation with the samplers as discussed in the paper. We demonstrate our approach using the CARLA Autonomous Driving Challenge https://leaderboard.carla.org/
 
 ## Downloads
 
