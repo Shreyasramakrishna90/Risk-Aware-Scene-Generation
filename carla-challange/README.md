@@ -5,7 +5,7 @@ This is the CARLA client folder that has all the client related code for running
 
 1. The carla_project has some CARLA utility files that is required to setup the AV in the simulator.
 
-2. The leaderboard is the main folder that is used in this work. Two files that are important are: (1) leaderboard/leaderboard/leaderboard_evaluator.py - this is the main script that sets up the scene in the simulation and runs it. (2) image_agent.py - this is the LEC code that also hosts the RESONATE Risk estimator and the OOD detectors. 
+2. The leaderboard is the main folder that is used in this work. Two files that are important are: (1) leaderboard/leaderboard/leaderboard_evaluator.py - this is the main script that sets up the scene in the simulation and runs it. (2) image_agent.py - this is the LEC code that also hosts the [RESONATE Risk estimator](https://github.com/scope-lab-vu/Resonate) and the OOD detectors. 
 
 3. The scenario_runner folder has all the functionalities for executing the [CARLA Autonomous Driving challange](https://carlachallenge.org/) setup can be found in this folder
 
