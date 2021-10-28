@@ -1,9 +1,6 @@
 # Risk-Aware Scene Sampling for Dynamic Assurance of Autonomous Systems
 
-ReSonAte uses the information gathered by hazard analysis and assurance cases to build [Bow-Tie Diagrams](https://www.cgerisk.com/knowledgebase/The_bowtie_method) to model hazard propagation paths and capture their relationships with the state of the system and environment. These Bow-tie diagrams are used to synthesize graphical models that are then used at runtime along with the information gathered from prior incidents about the possible environmental hazards and the hypothesis from failure diagnosers and system runtime monitors to estimate the hazard rates at runtime. These hazard rates are then used to determine the likelihood of unsafe system-level consequences captured in the bow-tie diagram. 
-
 This repo has the steps to run the scene generation with the samplers as discussed in the paper. We demonstrate our approach using the CARLA Autonomous Driving Challenge  https://carlachallenge.org/challenge/nhtsa/
-
 
 ## Downloads
 
