@@ -179,8 +179,6 @@ class StatisticsManager(object):
                             else:
                                 score_route = 0
 
-        #print(route_record.infractions['collisions_pedestrian'])
-
         # update route scores
         route_record.scores['score_route'] = score_route
         route_record.scores['score_penalty'] = score_penalty
@@ -246,8 +244,7 @@ class StatisticsManager(object):
         save_dict(endpoint, data)
 
     @staticmethod
-    def save_global_record(route_record, sensors, endpoint,filename,stats_file,config):
-        stats = []
+    def save_global_record(route_record, sensors, endpoint,filename,config):
         data = fetch_dict(endpoint)
         if not data:
             data = create_default_json_msg()
@@ -270,55 +267,62 @@ class StatisticsManager(object):
                           '{:.3f}'.format(config.weather.precipitation)
                           ]
 
-        data['labels'] = ['avg. route score',
-                          'collision',
-                          'route_deviation',
+        data['labels'] = ['avg. total score',
+                          'avg. route score',
+                          'avg. infraction penalty',
+                          'collisions with layout',
+                          'collisions with pedestrians',
+                          'collisions with vehicles',
+                          'off-road infractions',
+                          'red lights infractions',
+                          'route deviation infractions',
+                          'stop sign infractions',
+                          'timeouts',
+                          'vehicle blocked',
                           'precipitation',
                           'precipitation_deposits',
-                          'cloudiness'
+                          'cloudiness',
+                          'wind_intensity',
+                          'sun_azimuth_angle',
+                          'sun_altitude_angle',
+                          'fog_density',
+                          'fog_distance',
+                          'wetness'
                           ]
 
         data['sensors'] = sensors
 
-        # collision = 0
-        # if(stats_dict['infractions']['collisions_vehicle'] >= 0.5 and stats_dict['infractions']['collisions_vehicle'] < 1.0) or (stats_dict['infractions']['collisions_pedestrian'] >= 0.5 and stats_dict['infractions']['collisions_pedestrian'] < 1.0):
-        #     collision = 1
 
-        #print(stats_dict['infractions']['collisions_vehicle'])
-        #print(stats_dict['infractions']['collisions_pedestrian'])
-        collision_lane = stats_dict['infractions']['collisions_vehicle'] + stats_dict['infractions']['collisions_pedestrian']
-        infractions = 0.7* float(stats_dict['infractions']['red_light'])  + 0.8 * float(stats_dict['infractions']['stop_infraction'])
-        out_of_lane = stats_dict['infractions']['outside_route_lanes']
+        # fields = ['avg. total score', 'avg. route score', 'avg. infraction penalty', 'collisions with layout',
+        #           'collisions with pedestrians', 'collisions with vehicles', 'off-road infractions',
+        #           'red lights infractions', 'route deviation infractions', 'stop sign infractions',
+        #           'timeouts', 'vehicle blocked']
 
-        #print(collision_lane)
-        #print(infractions)
-        #print(out_of_lane)
-
-
-        myvalues = [{'avg. route score': '{:.3f}'.format(stats_dict['scores']['score_route']),
-                    'collision':collision_lane, 'route_deviation':'{:.3f}'.format(stats_dict['infractions']['outside_route_lanes']),
-                    'cloudiness': '{:.3f}'.format(config.weather.cloudiness), 'precipitation': '{:.3f}'.format(config.weather.precipitation),
-                    'precipitation_deposits': '{:.3f}'.format(config.weather.precipitation_deposits)}]
+        myvalues = [{'avg. total score': '{:.3f}'.format(stats_dict['scores']['score_composed']), 'avg. route score': '{:.3f}'.format(stats_dict['scores']['score_route']),
+                    'avg. infraction penalty':'{:.3f}'.format(stats_dict['scores']['score_penalty']) , 'collisions with layout': math.ceil(stats_dict['infractions']['collisions_layout']),
+                  'collisions with pedestrians': math.ceil(stats_dict['infractions']['collisions_pedestrian']), 'collisions with vehicles': math.ceil(stats_dict['infractions']['collisions_vehicle']) ,
+                  'off-road infractions':'{:.3f}'.format(stats_dict['infractions']['outside_route_lanes']),'red lights infractions':'{:.3f}'.format(stats_dict['infractions']['red_light']),
+                  'route deviation infractions':'{:.3f}'.format(stats_dict['infractions']['route_dev']), 'stop sign infractions':'{:.3f}'.format(stats_dict['infractions']['stop_infraction']),
+                   'timeouts':'{:.3f}'.format(stats_dict['infractions']['route_timeout']), 'vehicle blocked':'{:.3f}'.format(stats_dict['infractions']['vehicle_blocked']),
+                   'precipitation': '{:.3f}'.format(config.weather.precipitation),'precipitation_deposits': '{:.3f}'.format(config.weather.precipitation_deposits),
+                   'cloudiness': '{:.3f}'.format(config.weather.cloudiness), 'wind_intensity':'{:.3f}'.format(config.weather.wind_intensity),
+                   'sun_azimuth_angle':'{:.3f}'.format(config.weather.sun_azimuth_angle),'sun_altitude_angle':'{:.3f}'.format(config.weather.sun_altitude_angle),
+                   'fog_density':'{:.3f}'.format(config.weather.fog_density),'fog_distance':'{:.3f}'.format(config.weather.fog_distance),'wetness':'{:.3f}'.format(config.weather.wetness)}]
 
         file_exists = os.path.isfile(filename)
+
         # writing to csv file
-        with open(filename, 'w') as csvfile:
+        with open(filename, 'a') as csvfile:
+            # creating a csv dict writer object
             writer = csv.DictWriter(csvfile, fieldnames = data['labels'])
+
             if not file_exists:
+                # writing headers (field names)
                 writer.writeheader()
+            # writing data rows
             writer.writerows(myvalues)
 
-        stats.append(collision_lane)
-        stats.append(infractions)
-        stats.append(out_of_lane)
-
-        with open(stats_file, 'a') as csvfile1:
-            writer = csv.writer(csvfile1, delimiter = ',')
-            writer.writerow(stats)
-
         save_dict(endpoint, data)
-
-        return collision_lane, infractions, out_of_lane
 
     @staticmethod
     def clear_record(endpoint):

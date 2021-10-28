@@ -1,35 +1,6 @@
 {
     "_checkpoint": {
-        "global_record": {
-            "index": -1,
-            "infractions": {
-                "collisions_layout": 0.0,
-                "collisions_pedestrian": 0.0,
-                "collisions_vehicle": 0.0,
-                "outside_route_lanes": 0.0,
-                "red_light": 0.0,
-                "route_dev": 0.0,
-                "route_timeout": 0.4153752751178871,
-                "stop_infraction": 0.0,
-                "vehicle_blocked": 0.0
-            },
-            "meta": {
-                "exceptions": [
-                    [
-                        "RouteScenario_1",
-                        0,
-                        "Failed"
-                    ]
-                ]
-            },
-            "route_id": -1,
-            "scores": {
-                "score_composed": 54.892952159976396,
-                "score_penalty": 1.0,
-                "score_route": 54.892952159976396
-            },
-            "status": "Failed"
-        },
+        "global_record": {},
         "progress": [
             1,
             1
@@ -44,57 +15,26 @@
                     "outside_route_lanes": [],
                     "red_light": [],
                     "route_dev": [],
-                    "route_timeout": [
-                        "Route timeout."
-                    ],
+                    "route_timeout": [],
                     "stop_infraction": [],
                     "vehicle_blocked": []
                 },
                 "meta": {
-                    "duration_game": 21.050000313669443,
-                    "duration_system": 90.38628077507019,
-                    "route_length": 43.857388725527606
+                    "duration_game": 0.7000000104308128,
+                    "duration_system": 3.9998977184295654,
+                    "route_length": 71.38612775400942
                 },
                 "route_id": "RouteScenario_1",
                 "scores": {
-                    "score_composed": 54.892952159976396,
+                    "score_composed": 0.0,
                     "score_penalty": 1.0,
-                    "score_route": 54.892952159976396
+                    "score_route": 0.0
                 },
                 "status": "Failed"
             }
         ]
     },
-    "labels": [
-        "avg. route score",
-        "collision",
-        "route_deviation",
-        "precipitation",
-        "precipitation_deposits",
-        "cloudiness"
-    ],
-    "sensors": [
-        "carla_camera",
-        "carla_camera",
-        "carla_camera",
-        "carla_imu",
-        "carla_radar",
-        "carla_gnss",
-        "carla_speedometer"
-    ],
-    "values": [
-        "54.893",
-        "54.893",
-        "1.000",
-        "0.000",
-        "0.000",
-        "0.000",
-        "0.000",
-        "0.000",
-        "0.000",
-        "0.000",
-        "0.415",
-        "0.000",
-        "46.000"
-    ]
+    "labels": [],
+    "sensors": [],
+    "values": []
 }

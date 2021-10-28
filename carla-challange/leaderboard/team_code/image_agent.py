@@ -192,11 +192,9 @@ class ImageAgent(BaseAgent):
         (self.save_path / 'measurements').mkdir()
         (self.save_path / 'rgb_detector').mkdir()
 
-        print("problem1")
         with open(self.model_path + 'auto_model.json', 'r') as f:
             self.model_vae = model_from_json(f.read())
         self.model_vae.load_weights(self.model_path + 'auto_model.h5')
-        print("problem2")
 
         self.model_vae._make_predict_function()
         self.fields = ['step',

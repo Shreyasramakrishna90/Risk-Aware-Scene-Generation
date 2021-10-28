@@ -78,7 +78,7 @@ class RouteParser(object):
                 'weather': route_weather
             })
 
-            print(list_route_descriptions)
+            #print(list_route_descriptions)
 
         return list_route_descriptions
 
