@@ -7,13 +7,13 @@ This repo has the steps to run the scene generation with the samplers as discuss
 1. You will also need to install CARLA 0.9.9, along with the additional maps.
 See [link](https://github.com/carla-simulator/carla/releases/tag/0.9.9) for more instructions.
 
-2. Download the LEC weights from [here](). 
+2. Download the LEC weights from [here](https://vanderbilt365-my.sharepoint.com/:u:/g/personal/shreyas_ramakrishna_vanderbilt_edu/Eaq1ptU-YJJPrqmEYUK_dx8Bad2KqhVQZJkKwngWnuMWRA?e=U3dtyf). 
 
 Save the model.ckpt file to carla-challange/carla_project folder. 
 
-3. Download the trained B-VAE assurance monitor weights from [here](https://vanderbilt365-my.sharepoint.com/:u:/g/personal/shreyas_ramakrishna_vanderbilt_edu/EY5JCqsI65JEtvwMelR6OZwBPfho7FNtBOG5pDWAMXh1ng?e=7hR7pa)
+3. Download the trained B-VAE assurance monitor weights from [here](https://vanderbilt365-my.sharepoint.com/:u:/g/personal/shreyas_ramakrishna_vanderbilt_edu/EbB6W8s1XgFJg0Uv762w3v0BuAi7pOrYPZOnbmhHBlEKVQ?e=bOy4Rm)
 
-Unzip and save the weights to carla-challange/leaderboard/team_code/detector_code
+Unzip and save the weights to carla-challange/leaderboard/team_code/detector_code/ood_detector_weights
 
 ## Setup Virtual Environment
 
