@@ -1,3 +1,5 @@
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 import time
 import csv
 import cv2
@@ -5,6 +7,7 @@ import carla
 import os
 from leaderboard.autoagents import autonomous_agent
 from team_code.planner import RoutePlanner
+from carla_project.src.carla_env import draw_traffic_lights, get_nearby_lights
 import numpy as np
 import random
 import utils
@@ -30,11 +33,11 @@ def get_fault_list(fault_type):
         return fault_type
 
 class BaseAgent(autonomous_agent.AutonomousAgent):
-    def setup(self, path_to_conf_file,data_folder,route_folder,k,model_path,fault_type):
+    def setup(self, path_to_conf_file,data_folder,route_folder,k,model_path,fault_type,image_folder,sensor_faults_file):
         self.track = autonomous_agent.Track.SENSORS
         self.config_path = path_to_conf_file
         self.data_folder = data_folder
-        self.scene_number = k
+        self.image_folder = image_folder
         #self.failure_mode = i
         self.value = 0
         self.filename =    self.data_folder + "/fault_data.csv"  #"/home/scope/Carla/ICCPS_CARLA_challenge/leaderboard/data/my_data/Simulation6/fault_data.csv"
@@ -135,7 +138,16 @@ class BaseAgent(autonomous_agent.AutonomousAgent):
                     'type': 'sensor.speedometer',
                     'reading_frequency': 20,
                     'id': 'speed'
-                    }
+                    },
+
+                {
+                    'type': 'sensor.camera.semantic_segmentation',
+                    'x': 0.0, 'y': 0.0, 'z': 100.0,
+                    'roll': 0.0, 'pitch': -90.0, 'yaw': 0.0,
+                    'width': 512, 'height': 512, 'fov': 5 * 10.0,
+                    'id': 'map'
+                }
+
                 ]
 
     def fault_list(self,rgb,rgb_left,rgb_right,points,gps):
@@ -237,6 +249,12 @@ class BaseAgent(autonomous_agent.AutonomousAgent):
     def tick(self, input_data):
         self.step += 1
 
+        self._actors = self._world.get_actors()
+        self._traffic_lights = get_nearby_lights(self._vehicle, self._actors.filter('*traffic_light*'))
+        topdown = input_data['map'][1][:, :, 2]
+        topdown = draw_traffic_lights(topdown, self._vehicle, self._traffic_lights)
+
+
         rgb = cv2.cvtColor(input_data['rgb'][1][:, :, :3], cv2.COLOR_BGR2RGB)
         rgb_left = cv2.cvtColor(input_data['rgb_left'][1][:, :, :3], cv2.COLOR_BGR2RGB)
         rgb_right = cv2.cvtColor(input_data['rgb_right'][1][:, :, :3], cv2.COLOR_BGR2RGB)
@@ -266,5 +284,6 @@ class BaseAgent(autonomous_agent.AutonomousAgent):
                 'fault_scenario': self.fault_scenario,
                 'fault_step': self.fault_step,
                 'fault_duration': self.fault_time,
-                'fault_type': self.fault_type
+                'fault_type': self.fault_type,
+                'topdown': topdown
                 }

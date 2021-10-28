@@ -9,12 +9,12 @@ class BowTie(object):
         # self.b1_sigmoid_parameters = [35.4970268, 0.37144841]
         self.b1_sigmoid_parameters = [5.75415274, 0.04937048]
         # Table mapping failure modes to probabilities P(B1 | FM) and P(B1 | !FM)
-        self.b1_cond_prob_table = {"center_blur_dect":  (0.351, 0.417),
+        self.b1_cond_prob_table = {"center_blur_dect":  (0.270, 0.443),
                                    "left_blur_dect":    (0.378, 0.409),
-                                   "right_blur_dect":   (0.270, 0.443),
-                                   "center_occ_dect":   (0.342, 0.421),
+                                   "right_blur_dect":   (0.351, 0.417),
+                                   "center_occ_dect":   (0.395, 0.404),
                                    "left_occ_dect":     (0.395, 0.404),
-                                   "right_occ_dect":    (0.395, 0.404)}
+                                   "right_occ_dect":    (0.342, 0.421)}
 
 
     def rate_t1(self, state):

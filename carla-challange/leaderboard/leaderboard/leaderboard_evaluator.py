@@ -12,6 +12,8 @@ Provisional code to evaluate Autonomous Agents for the CARLA Autonomous Driving 
 """
 from __future__ import print_function
 
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 import traceback
 import argparse
 from argparse import RawTextHelpFormatter
@@ -47,7 +49,6 @@ from leaderboard.scenarios.route_scenario import RouteScenario
 from leaderboard.autoagents.agent_wrapper import SensorConfigurationInvalid
 from leaderboard.utils.statistics_manager import StatisticsManager
 from leaderboard.utils.route_indexer import RouteIndexer
-import team_code.plotter
 #ftom leaderboard.team_code.image_agent import ImageAgent
 
 
@@ -208,18 +209,18 @@ class LeaderboardEvaluator(object):
 
         return True
 
-    def _load_and_run_scenario(self, args, config,data_folder,route_folder,k,model_path,fault_type,traffic_amount):
+    def _load_and_run_scenario(self, args, config,data_folder,route_folder,k,model_path,fault_type,traffic_amount,image_folder,sensor_faults_file):
         """
         Load and run the scenario given by config
         """
-
+        print("0")
         if not self._load_and_wait_for_world(args, config.town, config.ego_vehicles):
             self._cleanup()
             return
 
         agent_class_name = getattr(self.module_agent, 'get_entry_point')()
         try:
-            self.agent_instance = getattr(self.module_agent, agent_class_name)(args.agent_config,data_folder,route_folder,k,model_path,fault_type)
+            self.agent_instance = getattr(self.module_agent, agent_class_name)(args.agent_config,data_folder,route_folder,k,model_path,fault_type,image_folder,sensor_faults_file)
             config.agent = self.agent_instance
             self.sensors = [sensors_to_icons[sensor['type']] for sensor in self.agent_instance.sensors()]
         except Exception as e:
@@ -228,7 +229,7 @@ class LeaderboardEvaluator(object):
             return
 
         # Prepare scenario
-        print("Preparing scenario: " + config.name)
+        #print("Preparing scenario: " + config.name)
 
         try:
             self._prepare_ego_vehicles(config.ego_vehicles, False)
@@ -284,7 +285,6 @@ class LeaderboardEvaluator(object):
             self.statistics_manager.set_route(config.name, config.index, scenario.scenario)
             distance_path = data_folder + "distance.csv"
             self.manager.run_scenario(distance_path)#This is where the scenario runs scenariomanager.py
-
             # Stop scenario
             self.manager.stop_scenario()
             print(self.client.show_recorder_collisions("/home/carla/data/collision_data.log", "v", "a"))
@@ -348,31 +348,36 @@ class LeaderboardEvaluator(object):
         return round(float(risk_value),2)
 
     def compute_scenario_score(self,risk,collision, infractions, out_of_lane,scenario_score_file):
-        """
-        Compute the scene score
-        """
         stats = []
-        scenario_score = 0.5 * risk + 0.25 * float(infractions) + 0.25 * float(out_of_lane)
+        #scenario_score = 0.5 * risk + 0.25 * float(infractions) + 0.25 * float(out_of_lane)
+        scenario_score = risk + float(infractions) + float(out_of_lane)
         stats.append(round(scenario_score,2))
         with open(scenario_score_file, 'a') as csvfile: #Always save the selected hyperparameters for optimization algorithms
             writer = csv.writer(csvfile, delimiter = ',')
             writer.writerow(stats)
 
-    def run(self, path,args,data_folder,route_folder,model_path):
+        print("---------------------")
+        print("Avg Scene Risk:%0.2f"%risk)
+        print("Scene Score:%0.2f"%round(scenario_score,2))
+        print("---------------------")
+
+
+    def run(self, path,args,data_folder,route_folder,model_path,image_folder):
         """
         Run the challenge mode
         """
         #value = 0
         traffic_amount = self.read_simulation_param(route_folder,x='traffic_density')
         fault_type = self.read_simulation_param(route_folder,x='sensor_faults')
-        print("---------------------")
-        print("fault type:%d"%fault_type)
-        print("traffic Amount:%d"%traffic_amount)
+        #print("---------------------")
+        #print("fault type:%d"%fault_type)
+        #print("traffic Amount:%d"%traffic_amount)
 
         filename = data_folder + "simulation_data.csv"
         stats_file = path + "collision_stats.csv"
         ood_stats_file = path + "ood_stats.csv"
         scenario_score_file = path + "scenario_score.csv"
+        sensor_faults_file = data_folder + "fault_data.csv"
         route_indexer = RouteIndexer(args.routes, args.scenarios, args.repetitions,route_folder)
         if args.resume:
             route_indexer.resume(args.checkpoint)
@@ -385,7 +390,7 @@ class LeaderboardEvaluator(object):
             # setup
             config = route_indexer.next()
             # run
-            self._load_and_run_scenario(args, config,data_folder,route_folder,k,model_path,fault_type,traffic_amount)
+            self._load_and_run_scenario(args, config,data_folder,route_folder,k,model_path,fault_type,traffic_amount,image_folder,sensor_faults_file)
 
             self._cleanup(ego=True)
 
@@ -393,42 +398,31 @@ class LeaderboardEvaluator(object):
 
             # save global statistics
             global_stats_record = self.statistics_manager.compute_global_statistics(route_indexer.total)
-            collision, Infractions, out_of_lane = StatisticsManager.save_global_record(global_stats_record, self.sensors, args.checkpoint,filename,stats_file,config)
+            collision, infractions, out_of_lane = StatisticsManager.save_global_record(global_stats_record, self.sensors, args.checkpoint,filename,stats_file,config)
             risk = self.process_simulation_data(data_folder,path,ood_stats_file)
-            self.compute_scenario_score(risk,collision, Infractions, out_of_lane,scenario_score_file)
+            self.compute_scenario_score(risk,collision, infractions, out_of_lane,scenario_score_file)
 
 
-# def data_plotting(path,data_folder):
-#     for i in range(0,1):
-#         filename = path + "simulation%d"%simulation_run + "/failure_mode%d"%i + "/simulation_data.csv"
-#         fault_data_path = data_folder + "/failure_mode%d"%i + "/fault_data.csv"
-#         data_folder = data_folder + "/failure_mode%d/"%i
-#         collision_times = team_code.plotter.extract_collision_data(data_folder)
-#         fault_data = team_code.plotter.extract_fault_data(fault_data_path)
-#         runs_path = team_code.plotter.extract_run_path(data_folder)
-#         weather_data = team_code.plotter.extract_weather_data(filename)
-#         team_code.plotter.plot(runs_path,weather_data[1],collision_times,fault_data,data_folder)
-
-
-def create_root_folder(y):
+def create_root_folder(data_path,y):
     paths = []
-    folders = ["simulation-data","routes"]
+    folders = ["simulation-data","routes","dummy_images"]
     for folder in folders:
-        new_path = folder + "/" + "simulation%s"%y + "/"
+        new_path = data_path + folder + "/" + "simulation%s"%y + "/"
         if not os.path.exists(new_path):
             os.makedirs(new_path, exist_ok=True) #creates a new dir everytime with max number
         paths.append(new_path)
 
     return paths
 
-def read_folder_number():
+def read_folder_number(path):
     """
     Write the folder number in which the routes are stored
     """
-    file1 = open("routes/" + "tmp.txt", "r")
+    path = path + "routes" + "/"
+    file1 = open(path + "tmp.txt", "r")
     y = file1.read()
     file1.close() #to change file access modes
-    os.remove("routes/" + "tmp.txt")
+    os.remove(path + "tmp.txt")
 
     return y
 
@@ -440,7 +434,7 @@ def main():
     parser = argparse.ArgumentParser(description=description, formatter_class=RawTextHelpFormatter)
     parser.add_argument('--host', default='localhost',
                         help='IP of the host server (default: localhost)')
-    parser.add_argument('--port', default='2000', help='TCP port to listen to (default: 2000)')
+    parser.add_argument('--port', default='3000', help='TCP port to listen to (default: 3000)')
     parser.add_argument('--debug', type=int, help='Run with debug output', default=0)
     parser.add_argument('--spectator', type=bool, help='Switch spectator view on?', default=True)
     parser.add_argument('--record', type=str, default='',
@@ -472,26 +466,29 @@ def main():
                         help="Path to checkpoint used for saving statistics and resuming")
     parser.add_argument('--simulation_number', type=int, help='Type the simulation folder to store the data')
     parser.add_argument('--scene_number', type=int, default=1, help='Type the scene number to be executed')
+    parser.add_argument('--project_path', type=str, help='Type the simulation folder to store the data')
 
     arguments = parser.parse_args()
 
     statistics_manager = StatisticsManager()
 
     try:
-        #data_path = "/routes/"
-        y = read_folder_number()
-        paths = create_root_folder(y)
+        data_path = arguments.project_path
+        y = read_folder_number(data_path)
+        paths = create_root_folder(data_path,y)
         #paths,y = create_root_folder(data_path,arguments.simulation_number)
-        print(paths)
-        model_path = "/carla-challange/leaderboard/team_code/detector_code/trial2/center-B-1.2/"
-        #os.makedirs(path + "scene%d"%arguments.simulation_number + '/', exist_ok=True)
+        model_path = data_path + "carla-challange/leaderboard/detector_code/ood_detector_weights/"
+        #model_path = "/home/scope/Carla/carla-dockers/carla-challange/leaderboard/team_code/detector_code/trial2/center-B-1.2/"#"/home/scope/Carla/carla-dockers/carla-challange/leaderboard/team_code/detector_code/trial2/center-B-1.2-trial/"#
+        #model_path = "/home/scope/Carla/carla-dockers/carla-challange/leaderboard/team_code/detector_code/trial1/old/center-B-1.2/"
         data_folder = paths[0] + "scene%d"%arguments.simulation_number + '/'
         os.makedirs(data_folder, exist_ok=True)
         route_folder = paths[1] + "scene%d"%arguments.simulation_number + '/'
         os.makedirs(route_folder, exist_ok=True)
+        image_folder = paths[2] + "scene%d"%arguments.simulation_number + '/'
+        os.makedirs(image_folder, exist_ok=True)
         leaderboard_evaluator = LeaderboardEvaluator(arguments, statistics_manager)
         #for i in range(0,15):
-        leaderboard_evaluator.run(paths[0],arguments,data_folder,route_folder,model_path)
+        leaderboard_evaluator.run(paths[0],arguments,data_folder,route_folder,model_path,image_folder)
             #data_plotting(path,data_folder)
 
     except Exception as e:
