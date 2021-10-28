@@ -44,7 +44,7 @@ In another terminal activate the virtual environment and run the following comma
 conda activate iccps
 ./run_agent.sh
 ```
-This should start running the carla setup with the default random sampler. To select the required sampler check the [sdl]() repo. 
+This should start running the carla setup with the default random sampler. To select the required sampler check the [sdl](https://github.com/Shreyasramakrishna90/RIsk-Aware-Scene-Generation/tree/main/carla-challange/sdl/scene) repo. 
 
 ## References
 
