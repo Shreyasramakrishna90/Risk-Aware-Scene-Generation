@@ -1,0 +1,59 @@
+//Each CARLA scene is defined interms of spatial parameters and temporal parameters
+//Spatial parameters include the road segment numbers
+//Temporal parameters include the weather pattern, time-of-day, and traffic density
+// ego_agent and other_agents. Each of these are described as a entities in the
+// scenario description language
+
+type string
+
+// Town description can have id and map
+entity town_description {
+    id: string
+    map: string
+}
+
+// Weather parameters that can be varied in Carla
+entity weather_description {
+cloudiness: (0,100)
+precipitation: (0,100)
+precipitation_deposits: (0,100)
+sun_altitude_angle: (0,90)
+wind_intensity: (0,0)
+sun_azimuth_angle: (0,0)
+wetness: (0,0)
+fog_distance: (0,0)
+fog_density: (0,0)
+}
+
+//Road segments that can be varied in Carla
+entity road_segment {
+segment_number: (0,10)
+}
+
+// Route description interms of waypoints to be followed
+entity route_description{
+pitch: string
+roll: string
+x: string
+y: string
+yaw: string
+z: string
+}
+
+// Global Route has multiple route_descriptions
+entity global_route{
+waypoint1: route_description
+waypoint2: route_description
+waypoint3: route_description
+
+
+//Traffic parameters that can be varied in Carla
+entity traffic_density {
+traffic: (0,200)
+}
+
+// Define uniform distribution
+entity uniform{
+    low: int
+    high: int
+}

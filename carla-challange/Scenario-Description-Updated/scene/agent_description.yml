@@ -1,0 +1,38 @@
+Description: Carla Agent Description
+Agent Information:
+    Sensors:
+          rgb_camera:
+              rgb_center: [x:1.3, y:0.0, z:1.3, roll:0.0, pitch:0.0, yaw:0.0, width:256, height:256, fov:90]
+              rgb_left: [x:1.3, y:-0.25, z:1.3, roll:0.0, pitch:0.0, yaw:-45.0, width:256, height:256, fov:90]
+              rgb_right: [x:1.3, y:0.25, z:1.3, roll:0.0, pitch:0.0, yaw:45.0, width:256, height:256, fov:90]
+          radar: [x:2.8, y:0.0, z:1.0, roll:0.0, pitch:0.0, yaw:0.0, fov:25,sensor_tick:0.05]
+          lidar: false
+          imu: [x:0.0, y:0.0, z:0.0, roll:0.0, pitch:0.0, yaw:0.0,sensor_tick:0.05]
+          gnss: [x:0.0, y:0.0, z:0.0, roll:0.0, pitch:0.0, yaw:0.0,sensor_tick:0.01]
+          segmentation_camera: false
+          speedometer: [reading_frequency:20]
+          collision_detector: false
+          obstacle_detector: false
+          ood_detector: true
+          anomaly_detectors:
+            blur_detectors: true
+            occlusion_detectors: true
+          resonate_risk_estimator: true
+    Data Recorder:
+          rgb_camera: false
+          radar: false
+          lidar: false
+          lane_invasion: false
+          imu: false
+          gnss: false
+          depth_camera: false
+          segmentation_camera: false
+          dvs_camera: false
+          speedometer: false
+          collision_detector: false
+          obstacle_detector: false
+          ood_detector: true
+          anomaly_detector:
+            blur_detectors: true
+            occlusion_detectors: true
+          resonate_risk: true

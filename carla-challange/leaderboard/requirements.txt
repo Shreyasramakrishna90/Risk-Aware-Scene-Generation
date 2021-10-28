@@ -1,0 +1,10 @@
+dictor
+requests
+opencv-python
+carla
+srunner
+pygame
+tabulate
+tensorflow-gpu==1.14
+keras==2.2.4
+pandas==0.25.3

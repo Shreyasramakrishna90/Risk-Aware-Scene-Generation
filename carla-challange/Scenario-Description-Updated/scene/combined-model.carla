@@ -1,0 +1,113 @@
+//Each CARLA scene is defined interms of spatial parameters and temporal parameters
+//Spatial parameters include the road segment numbers
+//Temporal parameters include the weather pattern, time-of-day, and traffic density
+// ego_agent and other_agents. Each of these are described as a entities in the
+// scenario description language
+
+type int
+type string
+type float
+
+
+class scene_info {
+length: scene_length
+town: town_description
+road: road_segments
+weather: weather
+traffic: traffic_density
+}
+
+class agent_info {
+agent: agent_attributes
+sensors: agent_sensors
+faults: agent_sensor_faults
+}
+
+entity town_description {
+    id: string
+    town: string
+}
+
+entity scene_length {
+time: float
+}
+
+entity weather {
+cloudiness: distribution
+precipitation: distribution
+precipitation_deposits: distribution
+sun_altitude_angle: distribution
+wind_intensity: distribution
+sun_azimuth_angle: distribution
+wetness: distribution
+fog_distance: distribution
+fog_density: distribution
+}
+
+entity road_segments {
+road_segments: distribution
+}
+
+entity traffic_density {
+traffic_density: distribution
+}
+
+entity distribution {
+min: int
+max: int
+}
+
+entity agent_attributes {
+model: string
+color: string
+rolename: string
+}
+
+entity agent_sensors {
+rgb_camera: sensor_attributes
+radar: sensor_attributes
+lidar: sensor_attributes
+lane_invasion: sensor_attributes
+imu: sensor_attributes
+gnss: sensor_attributes
+depth_camera: sensor_attributes
+segmentation_camera: sensor_attributes
+dvs_camera: sensor_attributes
+speedometer: speedometer_attributes
+collision_detector: sensor_attributes
+obstacle_detector: sensor_attributes
+}
+
+
+entity agent_sensor_faults {
+rgb_camera_fault: fault_attributes
+}
+
+entity fault_attributes {
+sensor_id: int
+fault_type: string
+value: float
+start_time: int
+end_time: int
+}
+
+entity sensor_attributes {
+sensor_type: string
+x: float
+y: float
+z: float
+roll: float
+pitch: float
+yaw: float
+width: float
+height: float
+fov: int
+sensor_tick: float
+id: string
+}
+
+entity speedometer_attributes {
+sensor_type: string
+reading_frequency: float
+id: string
+}

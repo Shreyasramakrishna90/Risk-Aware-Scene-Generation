@@ -1,0 +1,53 @@
+Description: Agent Description
+Agent Information:
+    Sensors:
+      rgb_camera:
+        rgb_center:
+          x: 1.3
+          y: 0.0
+          z: 1.3
+          width: 256
+          height: 256
+          fov: 90
+        rgb_left:
+          x: 1.3
+          y: -0.25
+          z: 1.3
+          width: 256
+          height: 256
+          fov: 90
+        rgb_right:
+          x: 1.3
+          y: -0.25
+          z: 1.3
+          width: 256
+          height: 256
+          fov: 90
+      radar:
+        radar_center:
+          x: 1.3
+          y: -0.25
+          z: 1.3
+          fov: 25
+      lidar:
+      lane_invasion:
+      imu:
+        imu_center:
+          x: 0.0
+          y: 0.0
+          z: 0.0
+          sensor_tick: 0.05
+      gnss:
+        gnss_center:
+          x: 0.0
+          y: 0.0
+          z: 0.0
+          sensor_tick: 0.01
+      depth_camera:
+      segmentation_camera:
+      dvs_camera:
+      speedometer:
+        speedometer_center:
+          reading_frequency: 20
+      collision_detector:
+      obstacle_detector:

@@ -1,0 +1,58 @@
+//Each CARLA scene is defined interms of spatial parameters and temporal parameters
+//Spatial parameters include the road segment numbers
+//Temporal parameters include the weather pattern, time-of-day, and traffic density
+// ego_agent and other_agents. Each of these are described as a entities in the
+// scenario description language
+
+type int
+type string
+type float
+
+
+class scene_info {
+length: scene_length
+town: town_description
+road: road_segments
+weather: weather
+traffic: traffic_density
+faults: sensor_faults
+}
+
+entity town_description {
+    id: string
+    town: string
+}
+
+entity scene_length {
+time: float
+}
+
+entity weather {
+cloudiness: distribution
+precipitation: distribution
+precipitation_deposits: distribution
+sun_altitude_angle: distribution
+wind_intensity: distribution
+sun_azimuth_angle: distribution
+wetness: distribution
+fog_distance: distribution
+fog_density: distribution
+}
+
+entity road_segments {
+road_segments: distribution
+}
+
+entity traffic_density {
+traffic_density: distribution
+}
+
+entity sensor_faults {
+sensor_faults: distribution
+}
+
+
+entity distribution {
+min: int
+max: int
+}

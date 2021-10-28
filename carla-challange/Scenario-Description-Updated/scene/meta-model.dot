@@ -1,0 +1,48 @@
+
+    digraph textX {
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+    node[
+        shape=record,
+        style=filled,
+        fillcolor=aliceblue
+    ]
+    nodesep = 0.3
+    edge[dir=black,arrowtail=empty]
+
+
+139874237822672 -> 139874237822608 [label="classes:0" arrowtail=diamond dir=both]
+139874237822608 -> 139874237821584 [label="properties:0" arrowtail=diamond dir=both]
+139874237821584[label="{cloudiness:Value|+min:int=0\l+max:int=100\l}"]
+139874237822608 -> 139874237821648 [label="properties:1" arrowtail=diamond dir=both]
+139874237821648[label="{precipitation:Value|+min:int=0\l+max:int=100\l}"]
+139874237822608 -> 139874245982480 [label="properties:2" arrowtail=diamond dir=both]
+139874245982480[label="{precipitation_deposits:Value|+min:int=0\l+max:int=100\l}"]
+139874237822608 -> 139874237808912 [label="properties:3" arrowtail=diamond dir=both]
+139874237808912[label="{sun_altitude_angle:Value|+min:int=0\l+max:int=90\l}"]
+139874237822608 -> 139874237810896 [label="properties:4" arrowtail=diamond dir=both]
+139874237810896[label="{wind_intensity:Value|+min:int=0\l+max:int=0\l}"]
+139874237822608 -> 139874237809808 [label="properties:5" arrowtail=diamond dir=both]
+139874237809808[label="{sun_azimuth_angle:Value|+min:int=0\l+max:int=0\l}"]
+139874237822608 -> 139874237811984 [label="properties:6" arrowtail=diamond dir=both]
+139874237811984[label="{wetness:Value|+min:int=0\l+max:int=0\l}"]
+139874237822608 -> 139874237810576 [label="properties:7" arrowtail=diamond dir=both]
+139874237810576[label="{fog_distance:Value|+min:int=0\l+max:int=0\l}"]
+139874237822608 -> 139874237811024 [label="properties:8" arrowtail=diamond dir=both]
+139874237811024[label="{fog_density:Value|+min:int=0\l+max:int=0\l}"]
+139874237822608[label="{weather_parameters:Class|}"]
+139874237822672 -> 139874237821136 [label="classes:1" arrowtail=diamond dir=both]
+139874237821136 -> 139874237811088 [label="properties:0" arrowtail=diamond dir=both]
+139874237811088[label="{segment_number:Value|+min:int=0\l+max:int=10\l}"]
+139874237821136[label="{road_segments:Class|}"]
+139874237822672 -> 139874237821392 [label="classes:2" arrowtail=diamond dir=both]
+139874237821392 -> 139874237809616 [label="properties:0" arrowtail=diamond dir=both]
+139874237809616[label="{traffic:Value|+min:int=0\l+max:int=20\l}"]
+139874237821392[label="{traffic_density:Class|}"]
+139874237822672 -> 139874237821520 [label="classes:3" arrowtail=diamond dir=both]
+139874237821520 -> 139874237812048 [label="properties:0" arrowtail=diamond dir=both]
+139874237812048[label="{fault_type:Value|+min:int=0\l+max:int=13\l}"]
+139874237821520[label="{camera_faults:Class|}"]
+139874237822672[label="{:Scene|simple_types:list=[]\l}"]
+
+}
