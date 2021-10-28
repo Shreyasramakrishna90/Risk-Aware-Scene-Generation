@@ -59,7 +59,7 @@ The goal of this work is to test different samplers for sequential scene generat
 4. **Halton Samppler** - Halton sampler is used to draw the scene sample parameters.
 5. **Random Neighborhood Search** - The sampler executes the sequenctial-search strategy discussed in the paper.
 6. **Guided Bayesian Optimization** - The sampler extends the conventional Bayesian Optimization sampler with sampling rules and uses them for sampling the high-risk scenes. 
-```
+
 
 ## References
 
