@@ -44,7 +44,23 @@ In another terminal activate the virtual environment and run the following comma
 conda activate iccps
 ./run_agent.sh
 ```
-This should start running the carla setup with the default random sampler. To select the required sampler check the [sdl](https://github.com/Shreyasramakrishna90/RIsk-Aware-Scene-Generation/tree/main/carla-challange/sdl/scene) repo. 
+This should start running the carla setup with the default random sampler. To select the required sampler check the carla-challange/sdl repo. 
+
+# Scene Generation & Samplers
+
+
+
+# Samplers
+
+The goal of this work is to test different samplers for sequential scene generation. We have integrated and the user can select from the following samplers.
+
+1. Manual Sampler - The user needs to specify the scene parameters if they choose this option.
+2. Random Sampler - A random sampler is set up, which takes in the parameters that the user wants to sample. The other parameters will take a default value.
+3. Grid Sampler - A grid sampler is set up to search across all the scene parameter samples within their value ranges.
+4. Halton Samppler - Halton sampler is used to draw the scene sample parameters.
+5. Random Neighborhood Search - The sampler executes the sequenctial-search strategy discussed in the paper.
+6. Guided Bayesian Optimization - The sampler extends the conventional Bayesian Optimization sampler with sampling rules and uses them for sampling the high-risk scenes. 
+```
 
 ## References
 
