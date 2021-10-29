@@ -3,7 +3,7 @@
 This repo has the steps to run the scene generation with the samplers as discussed in the paper. We demonstrate our approach using the CARLA Autonomous Driving Challenge https://leaderboard.carla.org/ . Some examples of the scenes generated in this work is shown in the figure below. 
 
 <p align="center">
-   <img src="https://github.com/Shreyasramakrishna90/RIsk-Aware-Scene-Generation/blob/main/scenes.png" align="center" width="600" height="600">
+   <img src="scenes.png" align="center" width="600" height="600">
 </p>
 
 ## Downloads
