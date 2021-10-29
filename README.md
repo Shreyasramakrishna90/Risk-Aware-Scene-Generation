@@ -2,6 +2,11 @@
 
 This repo has the steps to run the scene generation with the samplers as discussed in the paper. We demonstrate our approach using the CARLA Autonomous Driving Challenge https://leaderboard.carla.org/
 
+<p align="center">
+   <img src="https://github.com/Shreyasramakrishna90/AutomatedAssuranceFramework/blob/main/figures/workflow4-1.png" align="center" width="800" height="400">
+</p>
+
+
 ## Downloads
 
 1. You will also need to install CARLA 0.9.9, along with the additional maps.
