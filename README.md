@@ -3,6 +3,12 @@
 High-risk simulation scene generation has recently gained significant interest in the Autonomous Vehicle Domain. Traditional sampling-based approaches have been widely used for this purpose. **Passive samplers** like random search and grid search have been used in the industry. These samplers do not use the feedback of previous simulation results in the sampling process. To perform **active sampling**, we propose two new samplers called **Random Neighborhood Sampler (RNS)** and **Guided Bayesian Optimization (GBO)** in this work. These samplers are based on the conventional random and Bayesian Optimization search techniques and we add capabilities of active sampling, constraint-based sampling, and balancing the exploration vs. exploitation to guide them towards sampling clusters of high-risk scenes. We applied these samplers to an \ac{av} case study in CARLA Simulation. This repo has the steps to run the simulation scene generation with the samplers as discussed in the paper. For this, we leverage the CARLA Autonomous Driving Challenge https://leaderboard.carla.org/ . Some examples of the scenes generated in this work are shown in the figure below. 
 
 <p align="center">
+  <img src="https://github.com/scope-lab-vu/Beta-VAE-OOD-Detector/blob/main/figures/HP-scene.gif" />
+  <img src="https://github.com/scope-lab-vu/Beta-VAE-OOD-Detector/blob/main/figures/HB-scene.gif" />
+</p>
+
+
+<p align="center">
    <img src="scenes.png" align="center" width="500" height="400">
 </p>
 
