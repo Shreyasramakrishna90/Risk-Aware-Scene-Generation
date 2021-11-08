@@ -1,6 +1,6 @@
 # Risk-Aware Scene Sampling for Dynamic Assurance of Autonomous Systems
 
-High-risk simulation scene generation has recently gained signifcant interests in the Autonomous Vehicle Domain. Traditional sampling-based appraoches have been widely used for this purpose. **Passive samplers** like random search and grid search have been used in the industry. These samplers do not use feedback of previous simulation results in the sampling process. To perform **active sampling**, we propose two new samplers called **Random Neighborhood Sampler (RNS)** and **Guided Bayesian Optimization (GBO)** in this work. These samplers are based on the conventional random and Bayesian Optimization search techniques, and we add capabilities of active sampling, constraint-based sampling, and balancing the exploration vs. exploitation to guide them towards sampling clusters of high-risk scenes. We applied these samplers to an \ac{av} case study in CARLA Simulation. This repo has the steps to run the simulation scene generation with the samplers as discussed in the paper. For this, we leverage the CARLA Autonomous Driving Challenge https://leaderboard.carla.org/ . Some examples of the scenes generated in this work is shown in the figure below. 
+High-risk simulation scene generation has recently gained significant interest in the Autonomous Vehicle Domain. Traditional sampling-based approaches have been widely used for this purpose. **Passive samplers** like random search and grid search have been used in the industry. These samplers do not use the feedback of previous simulation results in the sampling process. To perform **active sampling**, we propose two new samplers called **Random Neighborhood Sampler (RNS)** and **Guided Bayesian Optimization (GBO)** in this work. These samplers are based on the conventional random and Bayesian Optimization search techniques and we add capabilities of active sampling, constraint-based sampling, and balancing the exploration vs. exploitation to guide them towards sampling clusters of high-risk scenes. We applied these samplers to an \ac{av} case study in CARLA Simulation. This repo has the steps to run the simulation scene generation with the samplers as discussed in the paper. For this, we leverage the CARLA Autonomous Driving Challenge https://leaderboard.carla.org/ . Some examples of the scenes generated in this work are shown in the figure below. 
 
 <p align="center">
    <img src="scenes.png" align="center" width="600" height="600">
@@ -67,12 +67,12 @@ The goal of this work is to test different samplers for sequential scene generat
 
 ## References
 
-The experiments in this work was built using these two works.
+The experiments in this work are built using these two works.
 
 
-1. ReSonAte: A Runtime Risk Assessment Framework for Autonomous Systems [paper](https://arxiv.org/abs/2102.09419)
+1. ReSonAte: A Runtime Risk Assessment Framework for Autonomous Systems [paper](https://arxiv.org/abs/2102.09419) - This is our previous work which introduced the ReSonAte risk estimation framework. We use this setup for computing the ReSonAte score in this work. [GitHub](https://github.com/scope-lab-vu/Resonate)
 
-2. Learning By Cheating [paper](https://arxiv.org/abs/1912.12294)
+2. Learning By Cheating [paper](https://arxiv.org/abs/1912.12294) - The Learning-Enabled Component (LEC) controller for the AV is borrowed from this work. We also used their autopilot controller to generate scenes in the training and calibration phases. [GitHub](https://github.com/bradyz/2020_CARLA_challenge) 
 
 
 
