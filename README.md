@@ -57,10 +57,10 @@ We use a scenario description DSML written in [textX](https://textx.github.io/te
 
 The goal of this work is to test different samplers for sequential scene generation. We have integrated and the user can select from the following samplers.
 
-1. **Manual Sampler** - The user needs to specify the scene parameters if they choose this option.
-2. **Random Sampler** - A random sampler is set up, which takes in the parameters that the user wants to sample. The other parameters will take a default value.
-3. **Grid Sampler** - A grid sampler is set up to search across all the scene parameter samples within their value ranges.
-4. **Halton Samppler** - Halton sampler is used to draw the scene sample parameters.
+1. **Manual Sampler** - A sampler in which the user can manually specify the values for the scene variables.
+2. **Random Sampler** - A sampler in which the scene variables are sampled uniformly at random from their respective distributions.
+3. **Grid Sampler** - A sampler that exhaustively samples all the combinations of the scene variables in a given grid.
+4. **Halton Samppler** - A pseudo-random sampler that samples the search space using co-prime as its bases.
 5. **Random Neighborhood Search** - The sampler executes the sequenctial-search strategy discussed in the paper.
 6. **Guided Bayesian Optimization** - The sampler extends the conventional Bayesian Optimization sampler with sampling rules and uses them for sampling the high-risk scenes. 
 
