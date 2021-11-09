@@ -10,6 +10,10 @@ High-risk simulation scene generation has recently gained significant interest i
 
 (Left) Cloudy Scene in an intersection. The AV also has a camera fault (camera occlusion), which makes its driving slightly suceptible. (Center) Sunset scene in a curvy road. There is another vehicle right in front of the AV. (Right) Cloudy Scene with slight rain.  
 
+## Technical Appendix
+
+The technical appendix for the paper can be found [here](Technical-Appendix.pdf)
+
 
 ## Downloads
 
