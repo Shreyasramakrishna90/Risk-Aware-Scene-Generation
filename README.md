@@ -18,7 +18,7 @@ The technical appendix for the paper can be found [here](Technical-Appendix.pdf)
 ## Downloads
 
 1. You will also need to install CARLA 0.9.9, along with the additional maps.
-See [link](https://github.com/carla-simulator/carla/releases/tag/0.9.9) for more instructions. (Our setup only works with CARLA 0.9.9 version. Using another version of the simulator will result in a version mismatch error.)
+See [link](https://github.com/carla-simulator/carla/releases/tag/0.9.9) for more instructions. (Our setup works with CARLA 0.9.9 version. Using another version of the simulator will result in a version and API mismatch error.)
 
 2. Download the LEC weights from [here](https://vanderbilt365-my.sharepoint.com/:u:/g/personal/shreyas_ramakrishna_vanderbilt_edu/Eaq1ptU-YJJPrqmEYUK_dx8Bad2KqhVQZJkKwngWnuMWRA?e=U3dtyf). The LEC model architecture was taken from [Learning By Cheating](https://github.com/bradyz/2020_CARLA_challenge)
 
