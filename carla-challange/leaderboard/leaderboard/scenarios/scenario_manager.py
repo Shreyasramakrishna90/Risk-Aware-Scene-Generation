@@ -33,9 +33,7 @@ class Scenario(object):
     """
     Basic scenario class. This class holds the behavior_tree describing the
     scenario and the test criteria.
-
     The user must not modify this class.
-
     Important parameters:
     - behavior: User defined scenario with py_tree
     - criteria_list: List of user defined test criteria with py_tree
@@ -117,9 +115,7 @@ class ScenarioManager(object):
     """
     Basic scenario manager class. This class holds all functionality
     required to start, and analyze a scenario.
-
     The user must not modify this class.
-
     To use the ScenarioManager:
     1. Create an object via manager = ScenarioManager()
     2. Load a scenario via manager.load_scenario()
@@ -214,6 +210,19 @@ class ScenarioManager(object):
                     ]
 
         while self._running:
+            #estimate the distance between the ego vehicle and the vehicle in front of the ego vehicle.
+            ego_location = CarlaActorPool.get_hero_actor().get_transform().location
+            ego_direction = ego_location + CarlaActorPool.get_hero_actor().get_transform().get_forward_vector()*15
+            offset = 2
+            obstacle = []
+            dis = float("inf")
+            for actor in self.other_actors:
+                actor_loc =  actor.get_transform().location
+                if ((min(ego_location.x,ego_direction.x)-offset) <= actor_loc.x <= (max(ego_location.x,ego_direction.x) +offset)) and ((min(ego_location.y,ego_direction.y)-offset) <= actor_loc.y <= (max(ego_location.y,ego_direction.y)+offset)):
+                    obstacle.append(actor.get_transform().location.distance(ego_location))
+            if len(obstacle) > 0:
+                dis = min(obstacle)
+
             timestamp = None
             world = CarlaDataProvider.get_world()
             if world:
@@ -223,7 +232,7 @@ class ScenarioManager(object):
             if timestamp:
                 distance = self._tick_scenario(timestamp)
 
-            dict = [{'Ground Truth':str(distance)}]
+            dict = [{'Ground Truth':str(dis)}]
 
             file_exists = os.path.isfile(distance_path)
             with open(distance_path, 'a') as csvfile:
@@ -320,7 +329,6 @@ class ScenarioManager(object):
         """
         Run next tick of scenario
         This function is a callback for world.on_tick()
-
         Important:
         - It has to be ensured that the scenario has not yet completed/failed
           and that the time moved forward.

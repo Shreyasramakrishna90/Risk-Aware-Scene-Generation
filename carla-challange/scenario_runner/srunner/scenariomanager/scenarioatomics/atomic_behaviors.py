@@ -553,7 +553,7 @@ class ChangeAutoPilot(AtomicBehavior):
         super(ChangeAutoPilot, self).__init__(name, actor)
         self.logger.debug("%s.__init__()" % (self.__class__.__name__))
         self._activate = activate
-        self._tm = CarlaActorPool.get_client().get_trafficmanager()
+        self._tm = CarlaActorPool.get_client().get_trafficmanager(4000)
         self._parameters = parameters
 
     def update(self):

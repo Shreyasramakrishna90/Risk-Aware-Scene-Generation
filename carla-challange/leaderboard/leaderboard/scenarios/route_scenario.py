@@ -438,8 +438,8 @@ class RouteScenario(BasicScenario):
         else:
             amount = 1
 
-        print("-----------------------------------------------")
-        print(amount)
+        #print("-----------------------------------------------")
+        #print(amount)
 
         actor_configuration_instance = ActorConfigurationData(model, transform, rolename='background', autopilot=True,
                                                               random=True, amount=amount)

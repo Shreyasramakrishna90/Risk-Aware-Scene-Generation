@@ -180,8 +180,6 @@ class ImageAgent(BaseAgent):
             string = pathlib.Path(os.environ['ROUTES']).stem + '_'
             string += '_'.join(map(lambda x: '%02d' % x, (now.month, now.day, now.hour, now.minute, now.second)))
 
-            #print(string)
-
             self.save_path = pathlib.Path(path) / string
             self.save_path.mkdir(exist_ok=False)
 
@@ -214,7 +212,6 @@ class ImageAgent(BaseAgent):
                        #'rgb_right_occluded_percent'
                      ]
         self.weather,self.run_number = process_weather_data(self.weather_file,self.scene_number)
-        #print(self.weather)
 
         with open(self.model_path+ 'calibration.csv', 'r') as file:
             reader = csv.reader(file)
@@ -285,25 +282,22 @@ class ImageAgent(BaseAgent):
         for i in range(len(self.calib_set)):
             if(float(dist) <= float(self.calib_set[i][0])):
                 anomaly+=1
-        #print(anomaly)
+
         p_value = anomaly/len(self.calib_set)
-        #print("p_value:%f"%p_value)
         if(p_value<0.005):
             p_anomaly.append(0.005)
         else:
             p_anomaly.append(p_value)
-        #print(p_anomaly)
         if(len(p_anomaly))>= sliding_window:
             p_anomaly = p_anomaly[-1*sliding_window:]
         m = integrate.quad(self.integrand,0.0,1.0,args=(p_anomaly))
         m_val = round(math.log(m[0]),2)
-        print("m_val:%f"%m_val)
+        #print("m_val:%f"%m_val)
         if(self.step==0):
             S = 0
             S_prev = 0
         else:
             S = max(0, prev_value[0]+prev_value[1]-delta)
-        #print("stateful detector:%f"%S)
         prev_value = []
         S_prev = S
         m_prev = m[0]
@@ -314,17 +308,13 @@ class ImageAgent(BaseAgent):
         self.mval_queue.put(m_val)
 
     def risk_computation(self,weather,blur_queue,am_queue,occlusion_queue,fault_scenario,fault_type,fault_time,fault_step):
-        #print("error")
         monitors = []
         faults = []
         faults.append(fault_type)
         blur = self.blur_queue.get()
-        #print(blur)
         occlusion = self.occlusion_queue.get()
-        #print(occlusion)
         mval = self.mval_queue.get()
         monitors = blur + occlusion
-        #monitors = blur[0:2] + occlusion[0:2]
         state = {"enviornment": {}, "fault_modes": None, "monitor_values": {}}
         for i in range(len(weather)):
             label = ENV_LABELS[i]
@@ -346,20 +336,13 @@ class ImageAgent(BaseAgent):
         r_top = r_t1_top + r_t2_top
         r_c1 = r_top * (1 - bowtie.prob_b3(state,fault_modes))
 
-        print("Dynamic Risk Score:%f"%r_c1)
+        print("Dynamic Risk:%f"%r_c1)
 
         dict = [{'step':self.step, 'monitor_result':mval, 'risk':round(r_c1,2), 'rgb_blur':blur[0],'rgb_left_blur':blur[1],'rgb_right_blur':blur[2],
         'rgb_occluded':occlusion[0],'rgb_left_occluded':occlusion[1],'rgb_right_occluded':occlusion[2]}]
 
-        # dict = [{'step':self.step,'monitor_result':mval,'rgb_blur':blur[0], 'risk':p_c1, 'rgb_blur_percent':blur[1], 'rgb_left_blur':blur[2],'rgb_left_blur_percent':blur[3],
-        # 'rgb_right_blur':blur[4],'rgb_right_blur_percent':blur[5],'rgb_occluded':occlusion[0],'rgb_occluded_percent':occlusion[1],'rgb_left_occluded':occlusion[2],
-        # 'rgb_left_occluded_percent':occlusion[3],'rgb_right_occluded':occlusion[4],'rgb_right_occluded_percent':occlusion[5]}]
-
-
         if(self.step == 0):
             self.detector_file =  self.data_folder + "/run%d.csv"%(self.scene_number)
-
-        # if(self.step > 250 and self.step < 400):
 
         file_exists = os.path.isfile(self.detector_file)
         with open(self.detector_file, 'a') as csvfile:

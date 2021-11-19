@@ -671,9 +671,7 @@ class CarlaActorPool(object):
         else:
             hero_actor = None
         batch = []
-        count = 0
-        appeared = []
-        waypoint = CarlaDataProvider._world.get_map().get_waypoint(hero_actor.get_transform().location)
+
         for i in range(amount):
             # Get vehicle by model
             blueprint = blueprint_library.filter(model)[0]#random.choice(blueprint_library.filter(model))
@@ -683,40 +681,27 @@ class CarlaActorPool(object):
 
             if blueprint.has_attribute('color'):
                 color = blueprint.get_attribute('color').recommended_values[1]#random.choice(blueprint.get_attribute('color').recommended_values)
-                #print(color)
                 blueprint.set_attribute('color', color)
 
             if hero:
                 blueprint.set_attribute('role_name', 'hero')
-
             elif autopilot:
                 blueprint.set_attribute('role_name', 'not-hero')
             else:
                 blueprint.set_attribute('role_name', 'scenario')
+
             if random_location:
                 if CarlaActorPool._spawn_index >= len(CarlaActorPool._spawn_points):
                     CarlaActorPool._spawn_index = len(CarlaActorPool._spawn_points)
                     spawn_point = None
                 elif hero_actor is not None:
-                    if count < 1:
-                        for w in waypoint.next(10):
-                            if w.transform.location not in appeared:
-                                appeared.append(w.transform.location)
-                                spawn_point = w.transform
-
-                                count += 1
-                                break
-                    else:
-                        for i in CarlaActorPool._spawn_points:
-                            if i.location.distance(hero_actor.get_transform().location) <= 50 and (i not in appeared):
-                                spawn_point = i
-                                appeared.append(i)
-                                break
+                    #spawn_point = CarlaActorPool._spawn_points[84]
+                    spawn_point = CarlaActorPool._spawn_points[CarlaActorPool._spawn_index]
+                    print(spawn_point.location)
                     CarlaActorPool._spawn_index += 1
                     # if the spawn point is to close to hero we just ignore this position
                     if hero_actor.get_transform().location.distance(spawn_point.location) < 1.0:
                         spawn_point = None
-
                 else:
                     spawn_point = CarlaActorPool._spawn_points[CarlaActorPool._spawn_index]
                     CarlaActorPool._spawn_index += 1
@@ -727,13 +712,13 @@ class CarlaActorPool(object):
                 except IndexError:
                     print("The amount of spawn points is lower than the amount of vehicles spawned")
                     break
-            #print(spawn_point.location)
+
             if spawn_point:
                 batch.append(SpawnActor(blueprint, spawn_point).then(SetAutopilot(FutureActor, autopilot)))
+
         actor_list = CarlaActorPool.handle_actor_batch(batch)
 
         return actor_list
-
 
     @staticmethod
     def request_new_batch_actors(model, amount, spawn_points, hero=False, autopilot=False, random_location=False):

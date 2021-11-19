@@ -1,6 +1,35 @@
 {
     "_checkpoint": {
-        "global_record": {},
+        "global_record": {
+            "index": -1,
+            "infractions": {
+                "collisions_layout": 0.0,
+                "collisions_pedestrian": 0.0,
+                "collisions_vehicle": 0.0,
+                "outside_route_lanes": 0.0,
+                "red_light": 0.0,
+                "route_dev": 0.0,
+                "route_timeout": 0.0,
+                "stop_infraction": 0.0,
+                "vehicle_blocked": 0.0
+            },
+            "meta": {
+                "exceptions": [
+                    [
+                        "RouteScenario_1",
+                        0,
+                        "Failed"
+                    ]
+                ]
+            },
+            "route_id": -1,
+            "scores": {
+                "score_composed": 11.51371006381637,
+                "score_penalty": 1.0,
+                "score_route": 11.51371006381637
+            },
+            "status": "Failed"
+        },
         "progress": [
             1,
             1
@@ -20,21 +49,51 @@
                     "vehicle_blocked": []
                 },
                 "meta": {
-                    "duration_game": 0.7000000104308128,
-                    "duration_system": 3.9998977184295654,
+                    "duration_game": 4.100000061094761,
+                    "duration_system": 20.568843364715576,
                     "route_length": 71.38612775400942
                 },
                 "route_id": "RouteScenario_1",
                 "scores": {
-                    "score_composed": 0.0,
+                    "score_composed": 11.51371006381637,
                     "score_penalty": 1.0,
-                    "score_route": 0.0
+                    "score_route": 11.51371006381637
                 },
                 "status": "Failed"
             }
         ]
     },
-    "labels": [],
-    "sensors": [],
-    "values": []
+    "labels": [
+        "avg. route score",
+        "collision",
+        "route_deviation",
+        "precipitation",
+        "precipitation_deposits",
+        "cloudiness"
+    ],
+    "sensors": [
+        "carla_camera",
+        "carla_camera",
+        "carla_camera",
+        "carla_imu",
+        "carla_radar",
+        "carla_gnss",
+        "carla_speedometer",
+        "carla_camera"
+    ],
+    "values": [
+        "11.514",
+        "11.514",
+        "1.000",
+        "0.000",
+        "0.000",
+        "0.000",
+        "0.000",
+        "0.000",
+        "0.000",
+        "0.000",
+        "0.000",
+        "0.000",
+        "0.000"
+    ]
 }

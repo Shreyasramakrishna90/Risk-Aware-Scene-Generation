@@ -51,14 +51,14 @@ class BackgroundActivity(BasicScenario):
                                                                  actor.amount,
                                                                  actor.transform,
                                                                  hero=False,
-                                                                 autopilot=False,
+                                                                 autopilot=True,
                                                                  random_location = actor.random_location)
             if new_actors is None:
                 raise Exception("Error: Unable to add actor {} at {}".format(actor.model, actor.transform))
 
             for _actor in new_actors:
                 self.other_actors.append(_actor)
-            
+
 
     def _create_behavior(self):
         """
