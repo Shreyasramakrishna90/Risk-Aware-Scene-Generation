@@ -13,22 +13,14 @@
                 "stop_infraction": 0.0,
                 "vehicle_blocked": 0.0
             },
-            "meta": {
-                "exceptions": [
-                    [
-                        "RouteScenario_1",
-                        0,
-                        "Failed"
-                    ]
-                ]
-            },
+            "meta": {},
             "route_id": -1,
             "scores": {
-                "score_composed": 11.51371006381637,
+                "score_composed": 100.0,
                 "score_penalty": 1.0,
-                "score_route": 11.51371006381637
+                "score_route": 100.0
             },
-            "status": "Failed"
+            "status": "Completed"
         },
         "progress": [
             1,
@@ -49,17 +41,17 @@
                     "vehicle_blocked": []
                 },
                 "meta": {
-                    "duration_game": 4.100000061094761,
-                    "duration_system": 20.568843364715576,
-                    "route_length": 71.38612775400942
+                    "duration_game": 9.600000143051147,
+                    "duration_system": 46.62789034843445,
+                    "route_length": 26.99238923643203
                 },
                 "route_id": "RouteScenario_1",
                 "scores": {
-                    "score_composed": 11.51371006381637,
+                    "score_composed": 100.0,
                     "score_penalty": 1.0,
-                    "score_route": 11.51371006381637
+                    "score_route": 100.0
                 },
-                "status": "Failed"
+                "status": "Completed"
             }
         ]
     },
@@ -82,8 +74,8 @@
         "carla_camera"
     ],
     "values": [
-        "11.514",
-        "11.514",
+        "100.000",
+        "100.000",
         "1.000",
         "0.000",
         "0.000",
@@ -94,6 +86,6 @@
         "0.000",
         "0.000",
         "0.000",
-        "0.000"
+        "40.000"
     ]
 }
