@@ -50,6 +50,7 @@ Now get into the path of this rpo and execute the following script inside the ca
 
 1. CARLA_ROOT: The location of the CARLA_0.9.9 simulator folder. 
 2. PORT: The simulator port (default:3000)
+3. HAS_DISPLAY: 1 = display simulation run, 2 = headless mode (no display)
 
 ```
 cd carla-challange
