@@ -14,7 +14,7 @@ Alternately, enter into this repo and execute this script ```./make_volume_folde
 
 # Downloads
 
-***Step 1***: Download [CARLA_0.9.9](https://github.com/carla-simulator/carla/releases/tag/0.9.9/) and put it inside the carla_client folder. Please pull CARLA_0.9.9.0 version. If you pull any other version, there will be a mismatch between the CARLA simulation API and the client API.
+***Step 1***: Download [CARLA_0.9.9](https://github.com/carla-simulator/carla/releases/tag/0.9.9/) and put it inside the carla_client folder. Please pull CARLA_0.9.9.0 version. If you pull any other version, there will be a mismatch between the CARLA simulation API and the client API. (***This can be skipped. The build script pulls carla sim and then uses it.)
 
 ***Step 2***: Pull the trained OOD detector weights from [here](https://vanderbilt365-my.sharepoint.com/:f:/g/personal/shreyas_ramakrishna_vanderbilt_edu/EvZqbV90bY1HmSCofd6A1m0BTlqrPBzOF1gy4vDvAt4KUQ?e=LnHlx6). Please download the folder (center-B-1.2-trial), unzip the folder and save it as "ood_detector_weights" into the following path "/carla_client/carla-challange/leaderboard/team_code/detector_code" .
 
@@ -42,7 +42,7 @@ xhost -local:docker
 
 # Docker Run
 
-Now, run the carla client docker using the script below. Note: CARLA is mounted as a volume. So, please change the path of the CARLA folder in your run_carla_client file. ```-v /(Add Path to CARLA_0.9.9)/:/CARLA_0.9.9 \```
+Now, run the carla client docker using the script below. (***Not necessary in the latest commit*** Note: CARLA is mounted as a volume. So, please change the path of the CARLA folder in your run_carla_client file. ```-v /(Add Path to CARLA_0.9.9)/:/CARLA_0.9.9 \```)
 
 ```
 ./run_carla_client.sh
