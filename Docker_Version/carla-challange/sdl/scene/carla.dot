@@ -1,0 +1,48 @@
+
+    digraph textX {
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+    node[
+        shape=record,
+        style=filled,
+        fillcolor=aliceblue
+    ]
+    nodesep = 0.3
+    edge[dir=black,arrowtail=empty]
+
+
+139761041658096 -> 139761041660840 [label="entities:0" arrowtail=diamond dir=both]
+139761041660840 -> 139761041661008 [label="properties:0" arrowtail=diamond dir=both]
+139761041661008 -> 139761041661344 [label="value" arrowtail=diamond dir=both]
+139761041661344[label="{:Value|+min:int=0\l+max:int=100\l}"]
+139761041661008[label="{cloudiness:Property|}"]
+139761041660840 -> 139761041661232 [label="properties:1" arrowtail=diamond dir=both]
+139761041661232 -> 139761041661456 [label="value" arrowtail=diamond dir=both]
+139761041661456[label="{:Value|+min:int=0\l+max:int=100\l}"]
+139761041661232[label="{precipitation:Property|}"]
+139761041660840 -> 139761041661288 [label="properties:2" arrowtail=diamond dir=both]
+139761041661288 -> 139761041661568 [label="value" arrowtail=diamond dir=both]
+139761041661568[label="{:Value|+min:int=0\l+max:int=100\l}"]
+139761041661288[label="{precipitation_deposits:Property|}"]
+139761041660840[label="{weather_description:Entity|}"]
+139761041658096 -> 139761041660728 [label="entities:1" arrowtail=diamond dir=both]
+139761041660728 -> 139761041661400 [label="properties:0" arrowtail=diamond dir=both]
+139761041661400 -> 139761041661736 [label="value" arrowtail=diamond dir=both]
+139761041661736[label="{:Value|+min:int=0\l+max:int=90\l}"]
+139761041661400[label="{sun_altitude_angle:Property|}"]
+139761041660728[label="{time_of_day:Entity|}"]
+139761041658096 -> 139761041661176 [label="entities:2" arrowtail=diamond dir=both]
+139761041661176 -> 139761041661624 [label="properties:0" arrowtail=diamond dir=both]
+139761041661624 -> 139761041661904 [label="value" arrowtail=diamond dir=both]
+139761041661904[label="{:Value|+min:int=0\l+max:int=200\l}"]
+139761041661624[label="{traffic:Property|}"]
+139761041661176[label="{traffic_density:Entity|}"]
+139761041658096 -> 139761041661512 [label="entities:3" arrowtail=diamond dir=both]
+139761041661512 -> 139761041661792 [label="properties:0" arrowtail=diamond dir=both]
+139761041661792 -> 139761041715384 [label="value" arrowtail=diamond dir=both]
+139761041715384[label="{:Value|+min:int=0\l+max:int=10\l}"]
+139761041661792[label="{segment_number:Property|}"]
+139761041661512[label="{road_segment:Entity|}"]
+139761041658096[label="{:EntityModel|}"]
+
+}
