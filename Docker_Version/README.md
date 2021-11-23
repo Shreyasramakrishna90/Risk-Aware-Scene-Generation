@@ -24,7 +24,7 @@ Unzip the weights file and save it as ***model.ckpt*** in the carla-challange/ca
 
 # Docker Build
 
-***Step 1***: Make sure NVIDIA Docker is set up. Please follow these [step](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#installation-guide) if you have not already set it up.
+***Step 1***: Make sure NVIDIA Docker is set up. Please follow these [steps](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#installation-guide) if you have not already set it up.
 
 ***Step 2***: Run the following to build a docker using Ubuntu 18.04 image and then install all the libraries required to run the our carla client
 
