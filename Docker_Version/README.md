@@ -54,3 +54,7 @@ This will take you into the carla client docker. When you are inside the docker 
 ```
 ./run_agent.sh
 ``` 
+This script has a few variables that need to be set before execution. 
+
+1. PORT: The simulator port (default:3000)
+2. HAS_DISPLAY: 1 = display simulation run, 2 = headless mode (no display)
