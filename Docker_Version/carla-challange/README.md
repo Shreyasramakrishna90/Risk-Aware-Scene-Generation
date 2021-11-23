@@ -1,176 +1,36 @@
-# Learning by Cheating
+# CARLA Client Code
 
-![teaser](https://github.com/dianchen96/LearningByCheating/blob/release-0.9.6/figs/fig1.png "Pipeline")
-> [**Learning by Cheating**](https://arxiv.org/abs/1912.12294)    
-> Dian Chen, Brady Zhou, Vladlen Koltun, Philipp Kr&auml;henb&uuml;hl,        
-> [Conference on Robot Learning](https://www.robot-learning.org) (CoRL 2019)      
-> _arXiv 1912.12294_
+This is the CARLA client folder that has all the client-related code for running the experiments. Most of the code is borrowed from the CARLA leaderboard challenge https://carlachallenge.org/get-started/. We use this code and build the scene generation and sampling approaches on top. 
 
-If you find our repo to be useful in your research, please consider citing our work
-```
-@inproceedings{chen2019lbc
-  author    = {Dian Chen and Brady Zhou and Vladlen Koltun and Philipp Kr\"ahenb\"uhl},
-  title     = {Learning by Cheating},
-  booktitle = {Conference on Robot Learning (CoRL)},
-  year      = {2019},
-}
-```
 
-The code in this repo is based off of [link](https://github.com/dianchen96/LearningByCheating), which contains the code for the NoCrash and CoRL 17 benchmarks.
+1. The carla_project has some CARLA utility files that are required to set up the AV in the simulator.
 
-## Installation
+2. The leaderboard is the main folder that is used in this work. Two important files are (1) leaderboard/leaderboard/leaderboard_evaluator.py - this is the main script that sets up the scene in the simulation and runs it. (2) image_agent.py - this is the LEC code that also hosts the [RESONATE Risk estimator](https://github.com/scope-lab-vu/Resonate) and the OOD detectors. 
 
-Clone this repo with all its submodules
+3. The scenario_runner folder has all the functionalities for executing the [CARLA Autonomous Driving challange](https://carlachallenge.org/) setup can be found in this folder
 
-```bash
-git clone https://github.com/bradyz/2020_CARLA_challenge.git --recursive
-```
-
-All python packages used are specified in `carla_project/requirements.txt`.
-
-This code uses CARLA 0.9.9 and works with CARLA 0.9.8.
-
-You will also need to install CARLA 0.9.9, along with the additional maps.
-See [link](https://github.com/carla-simulator/carla/releases/tag/0.9.9) for more instructions.
-
-## Dataset
-
-We provide a dataset of over 70k samples collected over the 75 routes provided in `leaderboard/data/routes_*.xml`.
-
-[Link to full dataset (9 GB)](https://drive.google.com/file/d/1dwt9_EvXB1a6ihlMVMyYx0Bw0mN27SLy/view?usp=sharing).
-
-![sample](assets/sample_route.gif)
-
-The dataset is collected using `leaderboard/team_code/autopilot.py`, using painfully hand-designed rules (i.e. if pedestrian is 5 meters ahead, then brake).
-
-Additionally, we change the weather for a single route once every couple of seconds to add visual diversity as a sort of on-the-fly augmentation.
-The simulator is run at 20 FPS, and we save the following data at 2 Hz.
-
-* Left, Center, and Right RGB Images at 256 x 144 resolution
-* A semantic segmentation rendered in the overhead view
-* World position and heading
-* Raw control (steer, throttle, brake)
-
-Note: the overhead view does nothing to address obstructions, like overhead highways, etc.
-
-We provide a sample trajectory in `sample_data`, which you can visualize by running
+4. The run_agent.sh script launches the simulation run in this setup. This is the access point that can be used to control the number of simulations to be run. It has two arguments that can be passed. (a) end - this is the number of scenes that need to be generated. (b) exploration_runs - In the case of BO, this decides the amount of training (exploration) required to train the Gaussian Process Model. This can be ignored in this work as we provide the sampler's ``warm start" using the previously generated random scenes. You can execute this script as follows.
 
 ```
-python3 -m carla_project.src.dataset sample_data/route_00/
+./run_agent.sh 5    #this will generate 5 scenes
 ```
 
-## Data Collection
+# Scene Generation
 
-The autopilot that we used to collect the data can use a lot of work and currently does not support stop signs.
+We use a scenario description DSML written in [textX](https://textx.github.io/textX/stable/) to generate different temporal scene parameters (weather parameters, time-of-day,traffic density), spatial scene parameters (road segments) and agent sensor faults.
 
-If you're interested in recollecting data after changing the autopilot's driving behavior in `leaderboard/team_code/autopilot.py`, you can collect your own dataset by running the following.
+# Language
 
-First, spin up a CARLA server
+carla.tx -- Has the grammer for the scenario description language. 
 
-```bash
-./CarlaUE4.sh -quality-level=Epic -world-port=2000 -resx=800 -resy=600 -opengl
-```
+scene-model.carla -- Has the entities of a CARLA scene. The entities like town description, weather, road segments are defined here.
 
-then run the agent.
+scene-model.carla -- Has the entities of an agent in CARLA simulation. The entities like ego agent type, sensors and faults are defined here.
 
-```bash
-export CARLA_ROOT=/home/bradyzhou/software/CARLA_0.9.9      # change to where you installed CARLA
-export PORT=2000                                            # change to port that CARLA is running on
-export ROUTES=leaderboard/data/routes/route_19.xml          # change to desired route
-export TEAM_AGENT=auto_pilot.py                             # no need to change
-export TEAM_CONFIG=sample_data                              # change path to save data
+# Specification Files
 
-./run_agent.sh
-```
+scene_description.yml - This is the scene specification file that allows the user to select what scene parameters need to be sampled and what sampler is needed to be used for sampling the scene parameters. 
 
-## Run a pretrained model
+# Interpreter
 
-Download the checkpoint from our [Wandb project](https://app.wandb.ai/bradyz/2020_carla_challenge_lbc).
-
-Navigate to one of the runs, like https://app.wandb.ai/bradyz/2020_carla_challenge_lbc/runs/command_coefficient=0.01_sample_by=even_stage2/files
-
-Go to the "files" tab, and download the model weights, named "epoch=24.ckpt", and pass in the file path as the `TEAM_CONFIG` below.
-
-Spin up a CARLA server
-
-```bash
-./CarlaUE4.sh -quality-level=Epic -world-port=2000 -resx=800 -resy=600 -opengl
-```
-
-then run the agent.
-
-```bash
-export CARLA_ROOT=/home/bradyzhou/software/CARLA_0.9.9      # change to where you installed CARLA
-export PORT=2000                                            # change to port that CARLA is running on
-export ROUTES=leaderboard/data/routes/route_19.xml          # change to desired route
-export TEAM_AGENT=image_agent.py                            # no need to change
-export TEAM_CONFIG=model.ckpt                               # change path to checkpoint
-export HAS_DISPLAY=1                                        # set to 0 if you don't want a debug window
-
-./run_agent.sh
-```
-
-## Training models from scratch
-
-First, download and extract our provided dataset.
-
-Then run the stage 1 training of the privileged agent.
-
-```python
-python3 -m carla_project/src/map_model --dataset_dir /path/to/data
-```
-
-We use wandb for logging, so navigate to the generated experiment page to visualize training.
-
-![sample](assets/stage_1.gif)
-
-If you're interested in tuning hyperparameters, see `carla_project/src/map_model.py` for more detail.
-
-Training the sensorimotor agent (acts only on raw images) is similar, and can be done by
-
-```python
-python3 -m carla_project/src/image_model --dataset_dir /path/to/data
-```
-
-## Docker
-
-Build the docker container to submit, make sure to edit `scripts/Dockerfile.master` appropriately.
-
-```bash
-sudo ./scripts/make_docker.sh
-```
-
-Spin up a CARLA server
-
-```bash
-./CarlaUE4.sh -quality-level=Epic -world-port=2000 -resx=800 -resy=600 -opengl
-```
-
-Now you can either run the docker container or run it interactively.
-
-To run the docker container,
-
-```bash
-sudo docker run --net=host --gpus all -e NVIDIA_VISIBLE_DEVICES=0 -e REPETITIONS=1 -e DEBUG_CHALLENGE=0 -e PORT=2000 -e ROUTES=leaderboard/data/routes_devtest.xml -e CHECKPOINT_ENDPOINT=tmp.txt -e SCENARIOS=leaderboard/data/all_towns_traffic_scenarios_public.json leaderboard-user:latest ./leaderboard/scripts/run_evaluation.sh
-```
-
-Or if you need to debug something, you can run it interactively
-
-```bash
-sudo docker run --net=host --gpus all -it leaderboard-user:latest /bin/bash
-```
-
-Run the evaluation through the interactive shell.
-
-```bash
-export PORT=2000
-export DEBUG_CHALLENGE=0
-export REPETITIONS=1
-export ROUTES=leaderboard/data/routes_devtest.xml
-export CHECKPOINT_ENDPOINT=tmp.txt
-export SCENARIOS=leaderboard/data/all_towns_traffic_scenarios_public.json
-
-conda activate python37
-
-./leaderboard/scripts/run_evaluation.sh
-```
+scene_interpreter.py -- The interpreter takes in the specification files from the user, the scenario language, and the samplers to generate scene artifact files for the simulator to use. It generates a route file (XML) for the CARLA simulator to set up the environment and an agent file (XML) to set up the sensors for the CARLA agent  
