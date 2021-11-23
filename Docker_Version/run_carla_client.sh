@@ -6,7 +6,7 @@ docker run -it --rm \
     -v $(pwd)/routes/:/carla-challange/routes \
     -v $(pwd)/images/:/carla-challange/images \
     -v $(pwd)/simulation-data/:/carla-challange/simulation-data \
-    -v /isis/Carla/CARLA/:/CARLA_0.9.9 \
+    -v $(pwd)/CARLA_0.9.9/:/CARLA_0.9.9 \
     --env="QT_X11_NO_MITSHM=1" \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
     -e DISPLAY \
