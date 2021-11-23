@@ -16,6 +16,8 @@ else
     exploration_runs=0
 fi
 
+#python3.7 -m pip install -e libs/carla-0.9.9-py3.7-linux-x86_64
+
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 export CARLA_ROOT=/CARLA_0.9.9
@@ -33,7 +35,7 @@ export PYTHONPATH=$PYTHONPATH:carla_project
 total_scenes=$end
 
 #Initialize carla
-$CARLA_PATH/CarlaUE4.sh -quality-level=Epic -world-port=3000 -resx=800 -resy=600 -opengl &
+$CARLA_ROOT/CarlaUE4.sh -quality-level=Epic -world-port=3000 -resx=800 -resy=600 -opengl &
 PID=$!
 echo "Carla PID=$PID"
 sleep 30
