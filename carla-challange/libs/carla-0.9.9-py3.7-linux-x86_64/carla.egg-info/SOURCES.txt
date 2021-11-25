@@ -1,0 +1,5 @@
+setup.py
+carla.egg-info/PKG-INFO
+carla.egg-info/SOURCES.txt
+carla.egg-info/dependency_links.txt
+carla.egg-info/top_level.txt

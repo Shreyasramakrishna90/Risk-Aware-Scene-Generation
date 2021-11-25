@@ -18,7 +18,7 @@ else
     exploration_runs=0
 fi
 
-export CARLA_ROOT=/isis/Carla/CARLA_0.9.9
+export CARLA_ROOT=/isis/Carla/CARLA_0.9.9  #Change path of CARLA_ROOT 
 export PORT=3000
 export ROUTES=leaderboard/data/routes/route_19.xml
 export TEAM_AGENT=image_agent.py
