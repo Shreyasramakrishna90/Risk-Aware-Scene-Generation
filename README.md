@@ -57,6 +57,8 @@ mkdir images               #stores images if chosen by the user
 ```
 Alternately, enter into this repo and execute this script ```./make_volume_folders.sh``` to set up these empty folders.
 
+***Launch Simulation & Sampler***
+
 Next get into the path of this repo and execute the following script inside the carla-challange folder. This script has a few variables that need to be set before execution. 
 
 1. PROJECT_PATH: Set this to the location of this repo.
