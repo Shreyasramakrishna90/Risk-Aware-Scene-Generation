@@ -18,16 +18,18 @@ else
     exploration_runs=0
 fi
 
-export CARLA_ROOT=/isis/Carla/CARLA_0.9.9  #Change path of CARLA_ROOT 
-export PORT=3000
+export PROJECT_PATH=/isis/Carla/github/Risk-Aware-Scene-Generation/ #Change the path to this repo
+export CARLA_ROOT=/isis/Carla/CARLA_0.9.9  #Change path of CARLA_ROOT
+export PORT=3000 #Change to required port
 export ROUTES=leaderboard/data/routes/route_19.xml
 export TEAM_AGENT=image_agent.py
 export TEAM_CONFIG=carla_project/model.ckpt
 export HAS_DISPLAY=1
 total_scenes=$end
 
+
 #Initialize carla
-$CARLA_ROOT/CarlaUE4.sh -quality-level=Epic -world-port=3000 -resx=800 -resy=600 -opengl &
+$CARLA_ROOT/CarlaUE4.sh -quality-level=Epic -world-port=$PORT -resx=800 -resy=600 -opengl &
 PID=$!
 echo "Carla PID=$PID"
 sleep 10
@@ -56,7 +58,7 @@ for (( j=0; j<=$end-1; j++ ))
     #total_scenes=$runs
     cutoff=$exploration_runs
     python3 sdl/scene/scene_interpreter.py \
-    --project_path='/isis/Carla/iccps/'\
+    --project_path=$PROJECT_PATH\
     --simulation_num=${i}\
     --scene_num=${l}\
     --optimizer=${optimization_algorithm}\
@@ -72,10 +74,10 @@ for (( j=0; j<=$end-1; j++ ))
     --routes=${ROUTES} \
     --checkpoint=${CHECKPOINT_ENDPOINT} \
     --port=${PORT} \
-    --record='/home/carla/data'\
+    --record=""\
     --simulation_number=${j}\
     --scene_number=${k}\
-    --project_path='/isis/Carla/iccps/'
+    --project_path=$PROJECT_PATH
 
 done
 # python3 leaderboard/team_code/plot-stats.py \

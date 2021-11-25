@@ -22,5 +22,6 @@ else
 
 fi
 
+
 # build the planning docker
 docker build -t carla_challange_client:v1 .
