@@ -46,7 +46,18 @@ python3 -m pip install -r requirements.txt
 
 # Running the Carla setup 
 
-Now get into the path of this repo and execute the following script inside the carla-challange folder. This script has a few variables that need to be set before execution. 
+***Create Folders for Docker Volumes***
+
+Create three folders named ```routes```, ```simulation-data``` and ```images``` inside this directory. These folders are the data volumes for the carla client docker. Run the following
+
+```
+mkdir routes               #stores the scene information.
+mkdir simulation-data      #stores the sensor information
+mkdir images               #stores images if chosen by the user
+```
+Alternately, enter into this repo and execute this script ```./make_volume_folders.sh``` to set up these empty folders.
+
+Next get into the path of this repo and execute the following script inside the carla-challange folder. This script has a few variables that need to be set before execution. 
 
 1. PROJECT_PATH: Set this to the location of this repo.
 1. CARLA_ROOT: Set this to the location of the CARLA_0.9.9 simulator folder. 
