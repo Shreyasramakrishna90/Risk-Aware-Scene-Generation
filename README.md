@@ -17,6 +17,8 @@ The technical appendix for the paper can be found [here](Technical-Appendix.pdf)
 
 ## Downloads
 
+***Manual Downloads***
+
 1. You will also need to install CARLA 0.9.9, along with the additional maps.
 Download CARLA 0.9.9 from [here](https://github.com/carla-simulator/carla/releases/tag/0.9.9) for more instructions. (Our setup works with CARLA 0.9.9 version. Using another version of the simulator will result in a version and API mismatch error.)
 
@@ -27,6 +29,10 @@ Save the model.ckpt file to carla-challange/carla_project folder.
 3. Download the trained B-VAE assurance monitor weights from [here](https://vanderbilt365-my.sharepoint.com/:u:/g/personal/shreyas_ramakrishna_vanderbilt_edu/EbB6W8s1XgFJg0Uv762w3v0BuAi7pOrYPZOnbmhHBlEKVQ?e=bOy4Rm)
 
 Unzip and save the weights to carla-challange/leaderboard/team_code/detector_code/ood_detector_weights
+
+***Automated Downloads***
+
+Enter into this repo and execute this script ```./downloads.sh``` to download these three requirements automatically into the required folders.
 
 ## Setup Virtual Environment
 
