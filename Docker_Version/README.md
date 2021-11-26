@@ -14,13 +14,16 @@ Alternately, enter into this repo and execute this script ```./make_volume_folde
 
 # Downloads
 
-~~***Step 1***: Download [CARLA_0.9.9](https://github.com/carla-simulator/carla/releases/tag/0.9.9/) and put it inside the carla_client folder. Please pull CARLA_0.9.9.0 version. If you pull any other version, there will be a mismatch between the CARLA simulation API and the client API.~~ (***This step can be skipped. The build script will pull carla sim package and installs it in the path of this repo.***)
+***Manual Downloads***
+
+***Step 1***: Download [CARLA_0.9.9](https://github.com/carla-simulator/carla/releases/tag/0.9.9/) and put it inside the carla_client folder. Please pull CARLA_0.9.9.0 version. If you pull any other version, there will be a mismatch between the CARLA simulation API and the client API. 
 
 ***Step 2***: Pull the trained OOD detector weights from [here](https://vanderbilt365-my.sharepoint.com/:f:/g/personal/shreyas_ramakrishna_vanderbilt_edu/EvZqbV90bY1HmSCofd6A1m0BTlqrPBzOF1gy4vDvAt4KUQ?e=LnHlx6). Please download the folder (center-B-1.2-trial), unzip the folder and save it as "ood_detector_weights" into the following path "/carla_client/carla-challange/leaderboard/team_code/detector_code" .
 
 ***Step 3***: The preitrained LEC is got from [Learning By Cheating](https://github.com/bradyz/2020_CARLA_challenge). Download the weights from [here](https://vanderbilt365-my.sharepoint.com/:u:/g/personal/shreyas_ramakrishna_vanderbilt_edu/ETRBzI7Ai3VJt9zL7yPnJO4Bi5zYvgggreiY2CG68f8s8A?e=nGJIQl)
 
 Unzip the weights file and save it as ***model.ckpt*** in the carla-challange/carla_project folder. 
+
 
 # Docker Build
 
