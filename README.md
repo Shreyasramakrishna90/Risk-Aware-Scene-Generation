@@ -30,7 +30,7 @@ Save the model.ckpt file to carla-challange/carla_project folder.
 
 Unzip and save the weights to carla-challange/leaderboard/team_code/detector_code/ood_detector_weights
 
-***Automated Downloads***
+***Automated Downloads (Preferred)***
 
 Enter into this repo and execute this script ```./downloads.sh``` to download these three requirements automatically into the required folders.
 
