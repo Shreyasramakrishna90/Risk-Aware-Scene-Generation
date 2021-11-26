@@ -24,6 +24,10 @@ Alternately, enter into this repo and execute this script ```./make_volume_folde
 
 Unzip the weights file and save it as ***model.ckpt*** in the carla-challange/carla_project folder. 
 
+***Automated Downloads (Preferred)***
+
+Enter into this repo and execute this script ```./downloads.sh``` to download these three requirements automatically into the required folders.
+
 
 # Docker Build
 
