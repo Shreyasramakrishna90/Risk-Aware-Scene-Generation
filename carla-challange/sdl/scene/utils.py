@@ -25,11 +25,11 @@ def parse_routes_file(route_filename, single_route=None):
             for waypoint in route.iter('waypoint'):
                 waypoint_list.append([waypoint.attrib['pitch'],waypoint.attrib['roll'],waypoint.attrib['x'],waypoint.attrib['y'],waypoint.attrib['yaw'],waypoint.attrib['z']])
 
-            print(len(waypoint_list))
+            #print(len(waypoint_list))
         return waypoint_list, route_town
 
 
-def scene_file_generator(scenarios,id,folder,waypoint_list,town):
+def scene_file_generator(scenarios,id,folder,waypoint_list,waypoint_list_trans, town):
 
     E = lxml.builder.ElementMaker()
     ROOT = E.routes
@@ -40,7 +40,7 @@ def scene_file_generator(scenarios,id,folder,waypoint_list,town):
     route3 = E.waypoint
     route4 = E.waypoint
     route5 = E.waypoint
-
+    #print(waypoint_list)
     the_doc = ROOT(
                     ROUTE(
                 route(map=town),
@@ -58,4 +58,17 @@ def scene_file_generator(scenarios,id,folder,waypoint_list,town):
                 )
     #print(lxml.etree.tostring(the_doc, pretty_print=True))
     tree = lxml.etree.ElementTree(the_doc)
-    tree.write(folder+'/%d.xml'%id, pretty_print=True, xml_declaration=True, encoding="utf-8")
+    tree.write(folder + '/%d.xml' % id, pretty_print=True, xml_declaration=True, encoding="utf-8")
+    the_doc_trans = ROOT(
+                    ROUTE(
+                route(map=town),
+                route1(id=str(id)),
+                route3(pitch = waypoint_list_trans[0][0], roll = waypoint_list_trans[0][1], x = waypoint_list_trans[0][2], y = waypoint_list_trans[0][3], yaw = waypoint_list_trans[0][4],
+                z = waypoint_list_trans[0][5]),
+                route4(pitch = waypoint_list_trans[1][0], roll = waypoint_list_trans[1][1],
+                x = waypoint_list_trans[1][2], y = waypoint_list_trans[1][3], yaw = waypoint_list_trans[1][4],
+                z = waypoint_list_trans[1][5]),
+                )
+                )
+    tree_trans = lxml.etree.ElementTree(the_doc_trans)
+    tree_trans.write(folder + '/trans%d.xml' % id, pretty_print=True, xml_declaration=True, encoding="utf-8")

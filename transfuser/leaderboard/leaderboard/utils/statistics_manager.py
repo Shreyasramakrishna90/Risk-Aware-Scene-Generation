@@ -14,7 +14,6 @@ from __future__ import print_function
 from dictor import dictor
 import math
 import sys
-
 from srunner.scenariomanager.traffic_events import TrafficEventType
 
 from leaderboard.utils.checkpoint_tools import fetch_dict, save_dict, create_default_json_msg

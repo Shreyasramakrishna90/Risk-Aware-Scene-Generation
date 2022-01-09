@@ -43,7 +43,7 @@ import scipy.integrate as integrate
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 DEBUG = int(os.environ.get('HAS_DISPLAY', 0))
-os.environ["CUDA_VISIBLE_DEVICES"]="1"
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
@@ -174,7 +174,7 @@ class ImageAgent(BaseAgent):
 
         self.save_path = None#"/isis/Carla/iccps/images/"
 
-        path = "/isis/Carla/iccps/images"
+        path = "/home/baiting1/Desktop/risk.git/images"
         if path:
             now = datetime.datetime.now()
             string = pathlib.Path(os.environ['ROUTES']).stem + '_'

@@ -11,7 +11,7 @@ from leaderboard.utils.checkpoint_tools import fetch_dict, create_default_json_m
 
 
 class RouteIndexer():
-    def __init__(self, routes_file, scenarios_file, repetitions):
+    def __init__(self, routes_file, scenarios_file, repetitions,data_folder):
         self._routes_file = routes_file
         self._scenarios_file = scenarios_file
         self._repetitions = repetitions
@@ -19,19 +19,30 @@ class RouteIndexer():
         self._configs_list = []
         self.routes_length = []
         self._index = 0
-
+        self.xml_folder = data_folder
         # retrieve routes
-        route_configurations = RouteParser.parse_routes_file(self._routes_file, self._scenarios_file, False)
-
-        self.n_routes = len(route_configurations)
+        #route_configurations = RouteParser.parse_routes_file(self._routes_file, self._scenarios_file, False)
+        route_descriptions_list = RouteParser.parse_routes_file1(self._scenarios_file, self.xml_folder, False)
+        #self.n_routes = len(route_configurations)
+        self.n_routes = len(route_descriptions_list)
         self.total = self.n_routes*self._repetitions
 
-        for i, config in enumerate(route_configurations):
+        #for i, config in enumerate(route_configurations):
+
+        for i, config in enumerate(route_descriptions_list):
             for repetition in range(repetitions):
                 config.index = i * self._repetitions + repetition
                 config.repetition_index = repetition
                 self._configs_dict['{}.{}'.format(config.name, repetition)] = copy.copy(config)
+        '''
 
+        for i, route_description in enumerate(route_descriptions_list):
+            for repetition in range(repetitions):
+                config = RouteScenarioConfiguration(route_description, self._scenarios_file)
+                config.index = i * self._repetitions + repetition
+                config.repetition_index = repetition
+                self._configs_dict['{}.{}'.format(config.name, repetition)] = config
+        '''
         self._configs_list = list(self._configs_dict.items())
 
     def peek(self):

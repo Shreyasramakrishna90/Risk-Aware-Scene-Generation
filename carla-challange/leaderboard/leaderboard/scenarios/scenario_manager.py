@@ -241,6 +241,7 @@ class ScenarioManager(object):
                 if not file_exists:
                     writer.writeheader()
                 writer.writerows(dict)
+            print(self._running)
 
         self._watchdog.stop()
 
@@ -350,7 +351,7 @@ class ScenarioManager(object):
 
             # Tick scenario
             self.scenario_tree.tick_once()
-
+            #self._debug_mode = 2
             if self._debug_mode > 1:
                 print("\n")
                 py_trees.display.print_ascii_tree(

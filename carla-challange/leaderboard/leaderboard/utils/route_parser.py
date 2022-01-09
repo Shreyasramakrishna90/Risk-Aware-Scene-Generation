@@ -92,7 +92,8 @@ class RouteParser(object):
         """
         xml_files=[]
         for xml_file in glob.glob(xml_folder +"/*.xml"):
-            xml_files.append(xml_file)
+            if (xml_file[-6] == "/"):
+                xml_files.append(xml_file)
         xml_files=natsort.natsorted(xml_files)
         list_route_descriptions=[]
         for xml_file in xml_files:

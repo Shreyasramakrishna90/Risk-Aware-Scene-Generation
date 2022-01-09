@@ -220,6 +220,7 @@ class LeaderboardEvaluator(object):
 
         agent_class_name = getattr(self.module_agent, 'get_entry_point')()
         try:
+            #print(agent_class_name)
             self.agent_instance = getattr(self.module_agent, agent_class_name)(args.agent_config,data_folder,route_folder,k,model_path,fault_type,image_folder,sensor_faults_file)
             config.agent = self.agent_instance
             self.sensors = [sensors_to_icons[sensor['type']] for sensor in self.agent_instance.sensors()]
@@ -259,6 +260,7 @@ class LeaderboardEvaluator(object):
         self.world.set_weather(weather)
 
         # Set the appropriate road friction
+
         if config.friction is not None:
             friction_bp = self.world.get_blueprint_library().find('static.trigger.friction')
             extent = carla.Location(1000000.0, 1000000.0, 1000000.0)
@@ -422,7 +424,7 @@ def read_folder_number(path):
     file1 = open(path + "tmp.txt", "r")
     y = file1.read()
     file1.close() #to change file access modes
-    os.remove(path + "tmp.txt")
+    #os.remove(path + "tmp.txt")
 
     return y
 
@@ -471,7 +473,6 @@ def main():
     arguments = parser.parse_args()
 
     statistics_manager = StatisticsManager()
-
     try:
         data_path = arguments.project_path
         y = read_folder_number(data_path)
@@ -480,6 +481,7 @@ def main():
         model_path = data_path + "carla-challange/leaderboard/detector_code/ood_detector_weights/"
         #model_path = "/home/scope/Carla/carla-dockers/carla-challange/leaderboard/team_code/detector_code/trial2/center-B-1.2/"#"/home/scope/Carla/carla-dockers/carla-challange/leaderboard/team_code/detector_code/trial2/center-B-1.2-trial/"#
         #model_path = "/home/scope/Carla/carla-dockers/carla-challange/leaderboard/team_code/detector_code/trial1/old/center-B-1.2/"
+        print(paths)
         data_folder = paths[0] + "scene%d"%arguments.simulation_number + '/'
         os.makedirs(data_folder, exist_ok=True)
         route_folder = paths[1] + "scene%d"%arguments.simulation_number + '/'

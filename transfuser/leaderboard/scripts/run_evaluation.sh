@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export CARLA_ROOT=/home/baiting/Desktop/CARLA_0.9.10
+export CARLA_ROOT=/home/baiting1/Desktop/CARLA_0.9.10
 export CARLA_SERVER=${CARLA_ROOT}/CarlaUE4.sh
 export PYTHONPATH=$PYTHONPATH:${CARLA_ROOT}/PythonAPI
 export PYTHONPATH=$PYTHONPATH:${CARLA_ROOT}/PythonAPI/carla
@@ -11,7 +11,7 @@ export PYTHONPATH=$PYTHONPATH:scenario_runner
 
 export LEADERBOARD_ROOT=leaderboard
 export CHALLENGE_TRACK_CODENAME=SENSORS
-export PORT=2000 # same as the carla server port
+export PORT=3000 # same as the carla server port
 export TM_PORT=8000 # port for traffic manager, required when spawning multiple servers/clients
 export DEBUG_CHALLENGE=0
 export REPETITIONS=1 # multiple evaluation runs

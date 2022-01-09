@@ -31,7 +31,6 @@ class RouteIndexer():
                 config = RouteScenarioConfiguration(route_description, self._scenarios_file)
                 config.index = i * self._repetitions + repetition
                 self._configs_dict['{}.{}'.format(config.name, repetition)] = config
-
         self._configs_list = list(self._configs_dict.items())
 
     def peek(self):

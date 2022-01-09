@@ -674,6 +674,7 @@ class CarlaActorPool(object):
         count = 0
         appeared = []
         waypoint = CarlaDataProvider._world.get_map().get_waypoint(hero_actor.get_transform().location)
+        amount = 0
         for i in range(amount):
             # Get vehicle by model
             blueprint = blueprint_library.filter(model)[0]#random.choice(blueprint_library.filter(model))

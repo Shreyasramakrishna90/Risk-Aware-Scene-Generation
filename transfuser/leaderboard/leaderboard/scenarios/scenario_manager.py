@@ -128,11 +128,14 @@ class ScenarioManager(object):
         while self._running:
             timestamp = None
             world = CarlaDataProvider.get_world()
+            actors = world.get_actors().filter('vehicle.*')
+            #for actor in actors:
+            #    print(actor.attributes.get('role_name'))
             if world:
                 snapshot = world.get_snapshot()
                 if snapshot:
                     timestamp = snapshot.timestamp
-                    print(timestamp, datetime.datetime.now())
+                    #print(timestamp, datetime.datetime.now())
             if timestamp:
                 self._tick_scenario(timestamp)
 
@@ -173,10 +176,10 @@ class ScenarioManager(object):
             if self.scenario_tree.status != py_trees.common.Status.RUNNING:
                 self._running = False
 
-            spectator = CarlaDataProvider.get_world().get_spectator()
-            ego_trans = self.ego_vehicles[0].get_transform()
-            spectator.set_transform(carla.Transform(ego_trans.location + carla.Location(z=50),
-                                                        carla.Rotation(pitch=-90)))
+            #spectator = CarlaDataProvider.get_world().get_spectator()
+            #ego_trans = self.ego_vehicles[0].get_transform()
+            #spectator.set_transform(carla.Transform(ego_trans.location + carla.Location(z=50),
+            #                                            carla.Rotation(pitch=-90)))
 
         if self._running and self.get_running_status():
             #blocks until a new tick is received from the simulator.

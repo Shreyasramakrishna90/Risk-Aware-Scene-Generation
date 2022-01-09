@@ -10,8 +10,9 @@ from collections import OrderedDict
 import json
 import math
 import xml.etree.ElementTree as ET
-
+import glob
 import carla
+import natsort
 from agents.navigation.local_planner import RoadOption
 from srunner.scenarioconfigs.route_scenario_configuration import RouteScenarioConfiguration
 
@@ -93,6 +94,48 @@ class RouteParser(object):
             new_config.trajectory = waypoint_list
 
             list_route_descriptions.append(new_config)
+
+        return list_route_descriptions
+
+    @staticmethod
+    def parse_routes_file1(scenario_file,xml_folder, single_route=None):
+        """
+        Returns a list of route elements that is where the challenge is going to happen.
+        :param route_filename: the path to a set of routes.
+        :param single_route: If set, only this route shall be returned
+        :return:  List of dicts containing the waypoints, id and town of the routes
+        """
+        xml_files=[]
+        for xml_file in glob.glob(xml_folder + "/trans" + "*.xml"):
+            #print(xml_file)
+            xml_files.append(xml_file)
+        xml_files=natsort.natsorted(xml_files)
+        list_route_descriptions=[]
+        for xml_file in xml_files:
+            tree = ET.parse(xml_file)
+            for route in tree.iter("route"):
+                for map in route.iter("map"):
+                    route_town = map.attrib['map']
+                for id in route.iter("id"):
+                    route_id = id.attrib['id']
+                if single_route and route_id != single_route:
+                    continue
+
+                new_config = RouteScenarioConfiguration()
+                new_config.town = route_town
+                new_config.name = "RouteScenario_{}".format(route_id)
+                new_config.weather = RouteParser.parse_weather(route)  # default: parse_weather(route)
+                new_config.scenario_file = scenario_file
+
+                waypoint_list = []  # the list of waypoints that can be found on this route
+                for waypoint in route.iter('waypoint'):
+                    waypoint_list.append(carla.Location(x=float(waypoint.attrib['x']),
+                                                        y=float(waypoint.attrib['y']),
+                                                        z=float(waypoint.attrib['z'])))
+
+                new_config.trajectory = waypoint_list
+
+                list_route_descriptions.append(new_config)
 
         return list_route_descriptions
 

@@ -26,7 +26,8 @@ import sys
 import carla
 import copy
 import signal
-
+import time
+sys.path.append('/home/baiting1/Desktop/risk.git/transfuser/leaderboard')
 from srunner.scenariomanager.carla_data_provider import *
 from srunner.scenariomanager.timer import GameTime
 from srunner.scenariomanager.watchdog import Watchdog
@@ -84,7 +85,7 @@ class LeaderboardEvaluator(object):
             self.client_timeout = float(args.timeout)
         self.client.set_timeout(self.client_timeout)
 
-        self.traffic_manager = self.client.get_trafficmanager(int(args.trafficManagerPort))
+        #self.traffic_manager = self.client.get_trafficmanager(int(args.trafficManagerPort))
 
         dist = pkg_resources.get_distribution("carla")
         if dist.version != 'leaderboard':
@@ -219,8 +220,8 @@ class LeaderboardEvaluator(object):
         print("checkpoint3")
         CarlaDataProvider.set_world(self.world)
         print("checkpoint4")
-        CarlaDataProvider.set_traffic_manager_port(int(args.trafficManagerPort))
-        print("checkpoint5")
+        #CarlaDataProvider.set_traffic_manager_port(int(args.trafficManagerPort))
+        #print("checkpoint5")
 
         #self.traffic_manager.set_synchronous_mode(True)
         #self.traffic_manager.set_random_device_seed(int(args.trafficManagerSeed))
@@ -400,14 +401,19 @@ class LeaderboardEvaluator(object):
         if crash_message == "Simulation crashed":
             sys.exit(-1)
 
+
     def run(self, args):
         """
         Run the challenge mode
         """
+        time.sleep(2)
+        data_path = args.project_path
+        y = read_folder_number(data_path)
+        paths = create_root_folder(data_path, y)
+        route_folder = paths[1] + "scene%d" % args.simulation_number + '/'
         # agent_class_name = getattr(self.module_agent, 'get_entry_point')()
         # self.agent_instance = getattr(self.module_agent, agent_class_name)(args.agent_config)
-
-        route_indexer = RouteIndexer(args.routes, args.scenarios, args.repetitions)
+        route_indexer = RouteIndexer(args.routes, args.scenarios, args.repetitions, route_folder)
         #print(route_indexer)
         if args.resume:
             #print("enter")
@@ -422,7 +428,7 @@ class LeaderboardEvaluator(object):
 
             # run
             self._load_and_run_scenario(args, config)
-
+            #self._cleanup(ego=True)
             for obj in gc.get_objects():
                 try:
                     if torch.is_tensor(obj) or (hasattr(obj, 'data') and torch.is_tensor(obj.data)):
@@ -436,6 +442,26 @@ class LeaderboardEvaluator(object):
         print("\033[1m> Registering the global statistics\033[0m")
         global_stats_record = self.statistics_manager.compute_global_statistics(route_indexer.total)
         StatisticsManager.save_global_record(global_stats_record, self.sensor_icons, route_indexer.total, args.checkpoint)
+
+def read_folder_number(path):
+
+    path = path + "routes" + "/"
+    file1 = open(path + "tmp.txt", "r")
+    y = file1.read()
+    file1.close()  # to change file access modes
+    os.remove(path + "tmp.txt")
+
+    return y
+
+def create_root_folder(data_path, y):
+    paths = []
+    folders = ["simulation-data", "routes", "dummy_images"]
+    for folder in folders:
+        new_path = data_path + folder + "/" + "simulation%s" % y + "/"
+        if not os.path.exists(new_path):
+            os.makedirs(new_path, exist_ok=True)  # creates a new dir everytime with max number
+        paths.append(new_path)
+    return paths
 
 
 def main():
@@ -477,11 +503,11 @@ def main():
     parser.add_argument("--checkpoint", type=str,
                         default='./simulation_results.json',
                         help="Path to checkpoint used for saving statistics and resuming")
-
+    parser.add_argument('--project_path', type=str, help='Type the simulation folder to store the data')
+    parser.add_argument('--simulation_number', type=int, help='Type the simulation folder to store the data')
     arguments = parser.parse_args()
 
     statistics_manager = StatisticsManager()
-
     try:
         leaderboard_evaluator = LeaderboardEvaluator(arguments, statistics_manager)
         leaderboard_evaluator.run(arguments)

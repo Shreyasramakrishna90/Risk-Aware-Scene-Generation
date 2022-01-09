@@ -88,7 +88,7 @@ def get_distribution_values(parameter_name):
     elif parameter_name == "sun_altitude_angle":
         min,max = 0,90
     elif parameter_name == 'road_segments':
-        min,max = (0,6)
+        min,max = (0,3)
     elif parameter_name == 'traffic_density':
         min,max = (10,20)
     elif parameter_name == 'sensor_faults':
@@ -177,16 +177,23 @@ def set_scene_weather(scene_info,weather_list):
 
     return weather
 
-def set_scene_road_segment(global_route,road_segment):
+def set_scene_road_segment(global_route,global_route_trans,road_segment):
     """
     Waypoints for the scene
     """
     list = []
+    #print(global_route)
+    #print(len(global_route))
     list.append(global_route[road_segment*2])
     list.append(global_route[road_segment*2+1])
     list.append(global_route[road_segment*2+2])
 
-    return list
+    list_trans = []
+    list_trans.append(global_route_trans[road_segment*2])
+    list_trans.append(global_route_trans[road_segment*2+1])
+    list_trans.append(global_route_trans[road_segment*2+2])
+
+    return list, list_trans
 
 def write_weather_data(weather,data_file):
     """
@@ -196,7 +203,7 @@ def write_weather_data(weather,data_file):
         writer = csv.writer(csvfile, delimiter = ',')
         writer.writerows(weather)
 
-def get_scene_info(scenario_language_path,carla_route, num_scenes, varying_scene_entities, varying_scene_parameters, sampler, manual_scene_specification):
+def get_scene_info(scenario_language_path,carla_route, carla_route_trans, num_scenes, varying_scene_entities, varying_scene_parameters, sampler, manual_scene_specification):
     """
     Invoke the scenario generation language and pull in the language grammer, scene parameters that require sampling
     """
@@ -204,10 +211,11 @@ def get_scene_info(scenario_language_path,carla_route, num_scenes, varying_scene
     scene_info = grammar.model_from_file(scenario_language_path + 'scene-model.carla') #scenario entities
     agent_info = grammar.model_from_file(scenario_language_path + 'agent-model.carla') #agent entities
     global_route,town = parse_routes_file(carla_route,False) #global route by reading one route from CARLA AD
+    global_route_trans, town_trans = parse_routes_file(carla_route_trans, False)
     dynamic_parameters, static_parameters = read_scene_parameters(scene_info,varying_scene_entities, varying_scene_parameters) #Get the scene parameters that vary
 
     #print(scene_info.entities)
-    return scene_info, dynamic_parameters, static_parameters,global_route,town
+    return scene_info, dynamic_parameters, static_parameters,global_route,town, global_route_trans, town_trans
 
 def read_yaml(yaml_file):
     """
@@ -283,7 +291,13 @@ def main(args,root,y,path):
     weather_data = []
     joined_parameter_list = []
     #data_path = path + "simulation%d"%y + "/"
-    carla_route = path + '/carla-challange/leaderboard/data/routes/route_17.xml'
+    #carla_route = path + '/carla-challange/leaderboard/data/routes/route_17.xml'
+    #carla_route_trans = path + '/carla-challange/leaderboard/data/routes/route_17.xml'
+    #carla_route = path + '/carla-challange/leaderboard/data/routes/routes_town05_DIY.xml'
+    carla_route = path + '/transfuser_main/leaderboard/data/validation_routes/DIY_long.xml'
+    carla_route_trans = path + '/transfuser_main/leaderboard/data/validation_routes/DIY_long.xml'
+    #carla_route_trans = path + '/transfuser/leaderboard/data/validation_routes/routes_town05_DIY.xml'
+
     folder = route_path + "scene%d"%simulation_run #folder to store all the xml generated
     scenario_language_path = 'sdl/scene/'
     os.makedirs(folder, exist_ok=True)
@@ -293,7 +307,7 @@ def main(args,root,y,path):
     scene_config = read_yaml(scene_description)
     #agent_config = read_yaml(agent_description)
     num_scenes, varying_scene_entities, varying_scene_parameters, sampler, manual_scene_specification = decode_scene_description(scene_config)
-    scene_info,dynamic_parameters, static_parameters,global_route,town = get_scene_info(scenario_language_path,carla_route,num_scenes, varying_scene_entities, varying_scene_parameters, sampler, manual_scene_specification)
+    scene_info,dynamic_parameters, static_parameters,global_route,town, global_route_trans, town_trans = get_scene_info(scenario_language_path,carla_route,carla_route_trans,num_scenes, varying_scene_entities, varying_scene_parameters, sampler, manual_scene_specification)
     if sampler == 'Manual':
         joined_parameter_list = ManualEntry(manual_scene_specification,folder,simulation_run,route_path,y,dynamic_parameters, static_parameters)
     else:
@@ -309,8 +323,8 @@ def main(args,root,y,path):
     weather_list,traffic_info,road_segment, fault_type = organize_parameters(joined_parameter_list) #Organize the selected hyperparameters
     weather = set_scene_weather(scene_info,weather_list) #weather description
     weather_data.append(weather)
-    road_segment_list = set_scene_road_segment(global_route,road_segment) #Choose the road segment
-    scene_file_generator(scene_info,scene_num,folder,road_segment_list,town) #generated XML each round
+    road_segment_list, road_segment_list_trans = set_scene_road_segment(global_route,global_route_trans,road_segment) #Choose the road segment
+    scene_file_generator(scene_info,scene_num,folder,road_segment_list,road_segment_list_trans, town) #generated XML each round
     write_weather_data(weather_data,data_file) #write weather to file
 
 

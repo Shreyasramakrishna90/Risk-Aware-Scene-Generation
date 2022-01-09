@@ -18,12 +18,15 @@ else
     exploration_runs=0
 fi
 
-export PROJECT_PATH=/isis/Carla/github/Risk-Aware-Scene-Generation/ #Change the path to this repo
-export CARLA_ROOT=/isis/Carla/CARLA_0.9.9  #Change path of CARLA_ROOT
+export PROJECT_PATH=/home/baiting1/Desktop/risk.git/ #Change the path to this repo
+export CARLA_ROOT=/home/baiting1/Desktop/CARLA_0.9.10  #Change path of CARLA_ROOT
 export PORT=3000 #Change to required port
-export ROUTES=leaderboard/data/routes/route_19.xml
+#export ROUTES=leaderboard/data/routes/route_19.xml
+export ROUTES=../transfuser_main/leaderboard/data/validation_routes/DIY_long.xml
+export main_ROUTES=leaderboard/data/routes/DIY_long.xml
 export TEAM_AGENT=image_agent.py
 export TEAM_CONFIG=carla_project/model.ckpt
+export TM_PORT=8000
 export HAS_DISPLAY=1
 total_scenes=$end
 
@@ -42,7 +45,7 @@ textx generate sdl/scene/agent-model.carla --grammar sdl/scene/carla.tx --target
 for (( j=0; j<=$end-1; j++ ))
   do
     export PYTHONPATH=$PYTHONPATH:$CARLA_ROOT/PythonAPI/carla
-    export PYTHONPATH=$PYTHONPATH:$CARLA_ROOT/PythonAPI/carla/dist/carla-0.9.9-py3.7-linux-x86_64.egg           # 0.9.9
+    export PYTHONPATH=$PYTHONPATH:$CARLA_ROOT/PythonAPI/carla/dist/carla-0.9.10-py3.7-linux-x86_64.egg           # 0.9.9
     export PYTHONPATH=$PYTHONPATH:leaderboard
     export PYTHONPATH=$PYTHONPATH:leaderboard/team_code
     export PYTHONPATH=$PYTHONPATH:scenario_runner
@@ -63,21 +66,48 @@ for (( j=0; j<=$end-1; j++ ))
     --scene_num=${l}\
     --optimizer=${optimization_algorithm}\
     --total_scenes=${total_scenes}\
-    --exploration=${exploration_runs}\
+    --exploration=${exploration_runs}
 
+
+    cd ../transfuser_main
     python3 leaderboard/leaderboard/leaderboard_evaluator.py \
-    --challenge-mode \
-    --track=dev_track_3 \
     --scenarios=leaderboard/data/all_towns_traffic_scenarios_public.json  \
-    --agent=${TEAM_AGENT} \
-    --agent-config=${TEAM_CONFIG} \
-    --routes=${ROUTES} \
-    --checkpoint=${CHECKPOINT_ENDPOINT} \
+    --routes=${main_ROUTES} \
+    --checkpoint=results/sample_result.json \
+    --agent=../transfuser_main/leaderboard/team_code/transfuser_agent.py \
+    --agent-config=../transfuser_main/model_ckpt/transfuser \
     --port=${PORT} \
-    --record=""\
+    --trafficManagerPort=${TM_PORT}\
+    --project_path=$PROJECT_PATH\
     --simulation_number=${j}\
-    --scene_number=${k}\
-    --project_path=$PROJECT_PATH
+
+    cd ../carla-challange
+
+    #python3 leaderboard/leaderboard/leaderboard_evaluator.py \
+    #--challenge-mode \
+    #--track=dev_track_3 \
+    #--scenarios=leaderboard/data/all_towns_traffic_scenarios_public.json  \
+    #--agent=${TEAM_AGENT} \
+    #--agent-config=${TEAM_CONFIG} \
+    #--routes=${ROUTES} \
+    #--checkpoint=${CHECKPOINT_ENDPOINT} \
+    #--port=${PORT} \
+    #--record=""\
+    #--simulation_number=${j}\
+    #--scene_number=${k}\
+    #--project_path=$PROJECT_PATH\
+
+    #cd ../transfuser
+    #python3 leaderboard/leaderboard/leaderboard_evaluator.py \
+    #--scenarios=leaderboard/data/all_towns_traffic_scenarios_public.json  \
+    #--routes=${ROUTES} \
+    #--checkpoint=results/sample_result.json \
+    #--agent=../transfuser/leaderboard/team_code/transfuser_agent.py \
+    #--agent-config=../transfuser/model_ckpt/transfuser \
+    #--port=${PORT} \
+    #--trafficManagerPort=${TM_PORT}\
+    #--project_path=$PROJECT_PATH\
+    #--simulation_number=${j}\
 
 done
 # python3 leaderboard/team_code/plot-stats.py \

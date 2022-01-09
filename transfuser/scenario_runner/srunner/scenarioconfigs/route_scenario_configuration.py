@@ -48,3 +48,18 @@ class RouteScenarioConfiguration(ScenarioConfiguration):
 
     trajectory = None
     scenario_file = None
+    '''
+    def __init__(self, route_description, scenario_file):
+
+        self.other_actors = []
+        self.ego_vehicles = []
+        self.trigger_points = []
+
+        self.name = "RouteScenario_{}".format(route_description['id'])
+        self.town = route_description['town_name']
+        self.route_description = route_description
+        self.weather = route_description['weather']
+
+        self.scenario_file = scenario_file
+
+    '''

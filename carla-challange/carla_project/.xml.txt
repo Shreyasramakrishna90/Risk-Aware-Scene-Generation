@@ -1,90 +1,13 @@
 {
     "_checkpoint": {
-        "global_record": {
-            "index": -1,
-            "infractions": {
-                "collisions_layout": 0.0,
-                "collisions_pedestrian": 0.0,
-                "collisions_vehicle": 0.0,
-                "outside_route_lanes": 0.0,
-                "red_light": 0.0,
-                "route_dev": 0.0,
-                "route_timeout": 0.0,
-                "stop_infraction": 0.0,
-                "vehicle_blocked": 0.0
-            },
-            "meta": {},
-            "route_id": -1,
-            "scores": {
-                "score_composed": 100.0,
-                "score_penalty": 1.0,
-                "score_route": 100.0
-            },
-            "status": "Completed"
-        },
+        "global_record": {},
         "progress": [
             1,
             1
         ],
-        "records": [
-            {
-                "index": 0,
-                "infractions": {
-                    "collisions_layout": [],
-                    "collisions_pedestrian": [],
-                    "collisions_vehicle": [],
-                    "outside_route_lanes": [],
-                    "red_light": [],
-                    "route_dev": [],
-                    "route_timeout": [],
-                    "stop_infraction": [],
-                    "vehicle_blocked": []
-                },
-                "meta": {
-                    "duration_game": 6.500000096857548,
-                    "duration_system": 28.867830991744995,
-                    "route_length": 18.372930984906112
-                },
-                "route_id": "RouteScenario_1",
-                "scores": {
-                    "score_composed": 100.0,
-                    "score_penalty": 1.0,
-                    "score_route": 100.0
-                },
-                "status": "Completed"
-            }
-        ]
+        "records": []
     },
-    "labels": [
-        "avg. route score",
-        "collision",
-        "route_deviation",
-        "precipitation",
-        "precipitation_deposits",
-        "cloudiness"
-    ],
-    "sensors": [
-        "carla_camera",
-        "carla_camera",
-        "carla_camera",
-        "carla_imu",
-        "carla_radar",
-        "carla_gnss",
-        "carla_speedometer"
-    ],
-    "values": [
-        "100.000",
-        "100.000",
-        "1.000",
-        "0.000",
-        "0.000",
-        "0.000",
-        "0.000",
-        "0.000",
-        "0.000",
-        "0.000",
-        "0.000",
-        "0.000",
-        "6.000"
-    ]
+    "labels": [],
+    "sensors": [],
+    "values": []
 }

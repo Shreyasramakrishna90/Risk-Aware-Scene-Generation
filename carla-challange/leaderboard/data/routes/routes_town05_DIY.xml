@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <routes>
-  <route id="0" town="Town05">
+  <route id="0" map="Town05">
     <waypoint x="49.799683" y="-208.116760" z="0.0" pitch="0.0" roll="0.0" yaw="-177.936691"/>
     <waypoint x="6.436978" y="205.008728" z="0.0" pitch="0.0" roll="0.0" yaw="1.366041"/>
     <waypoint x="53.430393" y="-204.037415" z="0.0" pitch="0.0" roll="0.0" yaw="-177.936691"/>
   </route>
-    <route id="1" town="Town05">
+    <route id="1" map="Town05">
     <waypoint x="49.799683" y="-208.116760" z="0.0" pitch="0.0" roll="0.0" yaw="-177.936691"/>
     <waypoint x="6.436978" y="205.008728" z="0.0" pitch="0.0" roll="0.0" yaw="1.366041"/>
     <waypoint x="53.430393" y="-204.037415" z="0.0" pitch="0.0" roll="0.0" yaw="-177.936691"/>
